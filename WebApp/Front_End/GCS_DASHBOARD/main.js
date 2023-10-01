@@ -59,8 +59,11 @@ const dashContent = document.querySelector("#dash_info .content");
 
 const displayDash = () => {
     dashList.forEach(f => {
-        const html = `<div class="icon">
-                <img src="${f.icon}" alt="" />
+        const html = 
+            `<div class="icon">
+                <a href="${f.action}">
+                    <img src="${f.icon}" alt="" />
+                </a>    
             </div>
             <h3><a href="${f.action}" id="${f.name}">${f.title}</a></h3>
             <p>
