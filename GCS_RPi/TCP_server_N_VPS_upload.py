@@ -74,8 +74,8 @@ def main():
     #
     host = '173.230.155.155'
     port = 22
-    username = 'root'
-    password = 'BANSHEEUAV2022'
+    username = ''
+    password = ''
     retry_time = 5
     retry_count = 0;
     current_path = os.getcwd()+ '/'
