@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>GCS Dashboard Website</title>
+        <link rel="stylesheet" type="text/css" href="style.css">
+    </head>
+    <body>
+
+        <header>
+            <a href="#" class="logo">Ground Control Station</a>
+            <ul>
+                <li><a href="#" class="active">Home</a></li>
+                <li><a href="#about_sec">About</a></li>
+                <li><a href="#urmomgay_sec">urmomgay</a></li>
+                
+            </ul>
+        </header>
+
+
+        <section id="home_stuff">
+            <img src="stars.png" id="stars">
+            <img src="gcs.png" id="gcs">
+            <img src="cla_tower.png" id="cla_tower">
+            <h2 id="text">GCS #1!</h2>
+            <a href="#dash_info" id="btn">Dashboard</a>
+            <img src="mountains_front.png" id="mountains_front">
+        </section>
+
+        <div class="container">
+            
+            <section id="dash_info">
+                <h2>Ground Control Station Dashboard</h2>
+                <div class="content">
+                    <!-- <div class="button_cards">
+                        <div class="icon">
+                            <img src="data_icon.png" id="data_icon" alt="" />
+                        </div>
+                        <h3>Flight Data</h3>
+                        <p>
+                            Most recent Drone Flight Data collected.
+                        </p>
+                    </div> -->
+                </div>
+            </section>
+
+            <section id="about_sec">
+                <h2><a href="#dash_info" id="about_btn">About</a></h2>
+                <p>I created this website because Don and Maggie forced me to against my will.</p>
+            </section>
+
+            <section id="urmomgay_sec">
+                <h2><a href="#dash_info" id="urmomgay_btn">urmomgay</a></h2>
+                <p>yup. ur mom is gay.</p>
+            </section>
+
+
+        </div>
+
+        <script src="main.js"></script>
+    
+            
+    
+        <script>
+            let stars = document.getElementById('stars');
+            let gcs = document.getElementById('gcs');
+            let cla_tower = document.getElementById('cla_tower');
+            let text = document.getElementById('text');
+            let btn = document.getElementById('btn');
+            let mountains_front = document.getElementById('mountains_front');
+            let header = document.querySelector('header');
+
+            window.addEventListener('scroll', function(){
+                let value = window.scrollY;
+                stars.style.left = value * 0.25 + 'px';
+                gcs.style.top = value * 1.05 + 'px';
+                cla_tower.style.top = value * 0.35 + 'px';
+                mountains_front.style.top = value * 0 + 'px';
+                text.style.marginRight = value * 2 + 'px';
+                text.style.marginTop = value * 1.5 + 'px';
+                btn.style.marginTop = value * 1.5 + 'px';
+            })
+        </script>
+
+        
+    </body>
+</html>

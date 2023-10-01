@@ -1,0 +1,235 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900&display=swap');
+*
+{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    scroll-behavior: smooth;
+}
+body {
+    min-height: 100vh;
+    background: linear-gradient(#131313, #575757);
+
+}
+
+header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 30px 100px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 10000;
+
+}
+
+header .logo {
+    color: #fff;
+    font-weight: 700;
+    text-decoration: none;
+    font-size: 2em;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+
+}
+
+header ul {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+header ul li {
+    list-style: none;
+    margin-left: 20px;
+
+}
+
+header ul li a {
+    text-decoration: none;
+    padding: 6px 15px;
+    color: #fff;
+    border-radius: 20px;
+
+}
+
+header ul li a:hover, header ul li a.active {
+    background: #fff;
+    color: #2b1055;
+}
+
+section {
+    padding: 50px 32px;
+}
+
+section h2 {
+    color: #fff;
+    text-align: center;
+    font-size: 4em;
+    margin: 0;
+    margin-bottom: 16px;
+    margin-top: 50px;
+    
+}
+
+#home_stuff {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    padding: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+
+}
+
+#home_stuff::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 100px;
+    background: linear-gradient(to top, #1b1a1d, transparent);
+    z-index: 1000;
+}
+
+#home_stuff img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+    
+}
+
+#home_stuff img#gcs {
+    mix-blend-mode: screen;
+}
+
+#home_stuff img#mountains_front {
+    z-index: 10;
+}
+
+#text {
+    position: absolute;
+    right: -1px;
+    color: #fff;
+    white-space: nowrap;
+    font-size: 5.5vw;
+    z-index: 9;
+}
+
+#btn {
+    text-decoration: none;
+    display: inline-block;
+    padding: 8px 30px;
+    border-radius: 40px;
+    background: #fff;
+    color: #131313;
+    font-size: 1.5em;
+    z-index: 9;
+    transform: translateY(100px);
+
+}
+
+.container {
+    background: #1b1a1d;
+    max-width: 100%;
+    margin-inline: auto;
+    padding-top: 70px;
+}
+
+#dash_info .button_cards a:hover, #dash_info .button_cards a.hover {
+    color: #2b1055;
+}
+
+/* DASHBOARD SECTION STUFF */
+
+#dash_info .button_cards {
+    background: linear-gradient(90deg, #cfcfcf 0%, #ababab 100%);
+    border-radius: 20px;
+    padding: 24px;
+}
+
+#dash_info h3 {
+    font-size: 18px;
+    padding-top: 50px;
+}
+
+#dash_info h3 a {
+    color: #1b1a1d;
+    text-decoration: none;
+}
+
+#dash_info .icon {
+    height: 120px;
+    width: 120px;
+    border-radius: 10px;
+    background: linear-gradient(90deg, #aaaaaa 0%, #b4b4b4 100%);
+    display: grid;
+    place-items: center;
+
+}
+
+#dash_info .content {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 24px;
+    padding-bottom: 700px;
+}
+
+
+
+
+/* ABOUT SECTION STUFF */
+
+#about_btn {
+    text-decoration: none;
+    color: #fff;
+
+}
+
+#about_sec {
+    padding-bottom: 500px;
+}
+
+#about_sec h2 {
+    text-align: left;
+    font-size: 24px;
+}
+
+#about_sec p {
+    padding: none;
+    color: #fff;
+    padding-bottom: 900px;
+}
+
+
+/* URMOMGAY SECTION STUFF */
+
+#urmomgay_btn {
+    text-decoration: none;
+    color: #fff;
+
+}
+
+#urmomgay_sec {
+    padding-bottom: 50px;
+}
+
+#urmomgay_sec h2 {
+    text-align: left;
+    font-size: 24px;
+}
+
+#urmomgay_sec p {
+    padding: none;
+    color: #fff;
+}
