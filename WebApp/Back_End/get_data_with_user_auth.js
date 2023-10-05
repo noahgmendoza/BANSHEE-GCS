@@ -62,8 +62,8 @@ app.post('/users', async (req, res) => {
       const hashedPassword = await bcrypt.hash(req.body.password, 10)
       const user = { name: req.body.name, password: hashedPassword }
       // Write the updated 'users' array to the JSON file
-      await writeUserData();
       users.push(user)
+      await writeUserData();
       console.log("User added to array")
       res.status(201).send()
     } catch {
@@ -84,6 +84,16 @@ app.post('/users', async (req, res) => {
         res.send('Not Allowed')
       }
     } catch {
+      res.status(500).send()
+    }
+  })
+
+  app.post('/users/remove', async (req, res) => {
+    try{
+      users = users.filter(item => item.name !== req.body.name);
+      await writeUserData();
+      console.log('User removed: ' + req.body.name);
+    }catch{
       res.status(500).send()
     }
   })
