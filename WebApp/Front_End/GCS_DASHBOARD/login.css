@@ -32,7 +32,7 @@ header {
 }
 
 .heading {
-	color: black;
+	color: rgb(0, 0, 0);
 }
 
 .title {
@@ -47,17 +47,19 @@ header {
 	box-shadow: 8px 8px 20px rgb(128, 128, 128);
 	position: relative;
 	overflow: hidden;
+	border-radius: 2%; 
 }
 
 .btn {
 	height: 60px;
 	width: 300px;
 	margin: 20px auto;
-	box-shadow: 10px 10px 30px rgb(254, 215, 188);
+	box-shadow: 10px 10px 30px rgba(43, 17, 139, 0.227);
 	border-radius: 50px;
 	display: flex;
 	justify-content: space-around;
 	align-items: center;
+	background-color: #8a8a8a;
 }
 
 .login,
@@ -68,6 +70,7 @@ header {
 	background-color: transparent;
 	position: relative;
 	cursor: pointer;
+	color: rgb(252, 251, 251);
 }
 
 .slider {
@@ -75,8 +78,8 @@ header {
 	width: 150px;
 	border-radius: 50px;
 	background-image: linear-gradient(to right,
-			rgb(255, 195, 110),
-			rgb(255, 146, 91));
+			rgb(104, 129, 199),
+			rgb(43, 17, 139));
 	position: absolute;
 	top: 20px;
 	left: 100px;
@@ -112,6 +115,26 @@ header {
 	padding: 0px 40px;
 }
 
+.form__message--success {
+    color: #4bb544;
+}
+
+.form__message--error {
+    color: #cc3333;
+}
+
+.form__input--error {
+    color:  #cc3333;
+    border-color:  #cc3333;
+}
+
+.error-message {
+    margin-top: -0.5rem;
+    font-size: 0.85rem;
+    color:  #cc3333;
+	text-align: center;
+}
+
 .login-box {
 	gap: 50px;
 }
@@ -137,11 +160,12 @@ header {
 	width: 150px;
 	border-radius: 50px;
 	background-image: linear-gradient(to right,
-			rgb(255, 195, 110),
-			rgb(255, 146, 91));
+			rgb(104, 129, 199),
+			rgb(43, 17, 139));
 	font-size: 22px;
 	border: none;
 	cursor: pointer;
+	color: white;
 }
 
 /* For Responsiveness of the page */

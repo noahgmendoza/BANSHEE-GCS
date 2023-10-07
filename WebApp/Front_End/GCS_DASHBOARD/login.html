@@ -26,36 +26,27 @@
 			<button class="login">Login</button>
 			<button class="signup">Signup</button>
 		</div>
-
+		<p class="error-message" id="error"><p>
 		<!-- Form section that contains the
 			login and the signup form -->
 		<div class="form-section">
-
+		<!--<div class="form__message form__message--error">Incorrect username/password combination</div>-->
 			<!-- login form -->
-			<div class="login-box">
-				<input type="email"
-					class="email ele"
-					placeholder="youremail@email.com">
-				<input type="password"
-					class="password ele"
-					placeholder="Password">
-				<button class="clkbtn" onclick="window.location.href = 'index.html';">Login</button>
-			</div>
+			<form id="loginForm">
+				<div class="login-box">
+					<input type="email" class="email ele" id ="email" autofocus placeholder="youremail@email.com" required>
+					<input type="password" class="password ele" id = "password" autofocus placeholder="Password" required>
+					<div class="login-box-error-message"></div>
+					<button class="clkbtn" type="submit" value="login" onclick="check()">Confirm</button>
+				</div>
+			</form>
 
 			<!-- signup form -->
 			<div class="signup-box">
-				<input type="text"
-					class="name ele"
-					placeholder="Enter Your Name">
-				<input type="email"
-					class="email ele"
-					placeholder="youremail@email.com">
-				<input type="password"
-					class="password ele"
-					placeholder="Password">
-				<input type="password"
-					class="password ele"
-					placeholder="Confirm Password">
+				<input type="text" class="name ele" placeholder="Enter Your Name">
+				<input type="email" class="email ele" placeholder="youremail@email.com">
+				<input type="password" class="password ele" placeholder="Password">
+				<input type="password" class="password ele" placeholder="Confirm Password">
 				<button class="clkbtn">Signup</button>
 			</div>
 		</div>
