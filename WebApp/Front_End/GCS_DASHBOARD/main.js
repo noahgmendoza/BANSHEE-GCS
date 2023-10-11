@@ -2,11 +2,11 @@ const dashList = [
     {
         icon: "data_icon.png",
         title: "Flight Data",
-        action: "http://173.230.155.155:3000/api/data",
+        action: "flight_data.html", //make another html to route this and fetch the json file
         name: "flight_btn",
         description:
             "Most recent Drone Flight Data collected.",
-    },
+    },  
 
     {
         icon: "battery_icon.png",
