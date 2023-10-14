@@ -1,23 +1,20 @@
-// fetch('http://173.230.155.155:3000/api/data')
-//     .then(res => {
-//         return res.json();
-//     })
-//     .then(data => {
-//         data.forEach(user => {
-//             const markup = `<li>${user.base_mode}</li>`;
-
-//             document.querySelector('ul').insertAdjacentHTML('beforeend',markup);
-//         })
-//     })
-//     .catch(error => console.log(error));
-
-const api_url = 'http://173.230.155.155:3000/api/data'
-async function getISS() {
-    const response  = await fetch(api_url);
-    const data = await response.json();
-    const {autopilot} = data;
-
-    document.getElementById('auto').textContent = autopilot;
-}
-
-getISS();
+fetch("http://173.230.155.155:3000/api/data")
+    .then((data) =>{
+        //console.log(data);  
+        return data.json(); //convert to object
+     }).then((objectData)=>{
+         console.log(objectData['Sensor data'][0]); //shows data stored in array[0] of "Sensor Data"
+         let tableData="";
+         objectData.map((values)=>{
+            tableData+=`<tr>
+            <td>${values./*whatever data we want*/}</td>
+            <td>${values./*whatever data we want*/}</td>
+            <td>${values./*whatever data we want*/}</td>
+            </tr>`;
+         });
+         document.getElementById("table_body").
+         innerHTML=tableData;
+    })
+    .catch((error)=>{
+        console.log(error)
+    })
