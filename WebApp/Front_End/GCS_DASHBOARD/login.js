@@ -3,7 +3,7 @@ const fakePassword = "password";
 const loginForm = document.getElementById("loginForm");
 
 
-
+//to hide/show error message when logging in
 loginForm.addEventListener("submit", function (e)
 {
 	e.preventDefault();
@@ -12,7 +12,7 @@ loginForm.addEventListener("submit", function (e)
 	const inputPassword = document.getElementById("password").value;
 	const errorMessage = document.getElementById("error");
 
-	if(fakeEmail === inputEmail && fakePassword === inputPassword)
+	if(fakeEmail === inputEmail && fakePassword === inputPassword) //change this to fetch login data from api
 	{
 		window.location.href = "index.html";
 	}
