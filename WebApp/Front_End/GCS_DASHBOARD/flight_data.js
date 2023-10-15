@@ -1,16 +1,22 @@
-fetch("http://173.230.155.155:3000/api/data")
+fetch("http://149.28.81.138:80/api/data")
     .then((data) =>{
         //console.log(data);  
         return data.json(); //convert to object
      }).then((objectData)=>{
-         console.log(objectData['Sensor data'][0]); //shows data stored in array[0] of "Sensor Data"
+         console.log(objectData['Sensor data']); //shows data stored in array[0] of "Sensor Data"
          let tableData="";
-         objectData.map((values)=>{
-            // tableData+=`<tr>
-            // <td>${values./*whatever data we want*/}</td>
-            // <td>${values./*whatever data we want*/}</td>
-            // <td>${values./*whatever data we want*/}</td>
-            // </tr>`;
+         Object.keys(objectData)
+         objectData['Sensor data'].map((values)=>{
+              tableData+=`<tr>
+            <td>${values.mavpackettype}</td>
+            <td>${values.type}</td>
+            <td>${values.autopilot}</td>
+            <td>${values.base_mode}</td>
+            <td>${values.custom_mode}</td>
+            <td>${values.system_status}</td>
+            <td>${values.mavlink_version}</td>
+            
+            </tr>`
          });
          document.getElementById("table_body").
          innerHTML=tableData;
