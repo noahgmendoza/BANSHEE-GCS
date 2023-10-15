@@ -1,4 +1,4 @@
-fetch("http://173.230.155.155:3000/api/data")
+fetch("http://149.28.81.138:80/api/data")
     .then((data) =>{
         //console.log(data);  
         return data.json(); //convert to object
