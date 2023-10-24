@@ -4,24 +4,27 @@ const dashList = [
         title: "Flight Data",
         action: "flight_data.html", //make another html to route this and fetch the json file
         name: "flight_btn",
+        iconid: "flight_icon",
         description:
             "Most recent Drone Flight Data collected.",
-    },  
+    },
 
     {
         icon: "battery_icon.png",
         title: "Battery Info",
-        action: "#about_sec",
+        action: "#dash_info",
         name: "battery_btn",
+        iconid: "battery_icon",
         description:
             "Saved battery voltages from BVM Battery Monitoring Set-up.",
     },
 
     {
         icon: "data_icon.png",
-        title: "Something",
-        action: "#about_sec",
+        title: "Live Footage",
+        action: "#live_cam_sec",
         name: "something1_btn",
+        iconid: "something1_icon",
         description:
             "Whatever else you want.",
     },
@@ -31,6 +34,7 @@ const dashList = [
         title: "Something",
         action: "#about_sec",
         name: "something2_btn",
+        iconid: "something2_icon",
         description:
             "Whatever else you want.",
     },
@@ -40,6 +44,7 @@ const dashList = [
         title: "Something",
         action: "#about_sec",
         name: "something3_btn",
+        iconid: "something3_icon",
         description:
             "Whatever else you want.",
     },
@@ -49,6 +54,7 @@ const dashList = [
         title: "Something",
         action: "#about_sec",
         name: "something4_btn",
+        iconid: "something3_icon",
         description:
             "Whatever else you want.",
     },
@@ -59,8 +65,11 @@ const dashContent = document.querySelector("#dash_info .content");
 
 const displayDash = () => {
     dashList.forEach(f => {
-        const html = `<div class="icon">
-                <img src="${f.icon}" alt="" />
+        const html = 
+            `<div class="icon">
+                <a href="${f.action}">
+                    <img src="${f.icon}" id="${f.iconid}" alt="" />
+                </a>    
             </div>
             <h3><a href="${f.action}" id="${f.name}">${f.title}</a></h3>
             <p>
@@ -75,10 +84,10 @@ const displayDash = () => {
     });
 };
 
+
 displayDash();
 
-
-//FOR POP-UP NOTIF
+// FOR POP-UP NOTIF
 const ModalWindow = {
     init(){
         document.body.addEventListener("click", e => {
