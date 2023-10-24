@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 <html lang = "en">
-<head>
-    <title>GCS Dashboard Website</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <head>
+        <title>GCS Dashboard Website</title>
+        <link rel="stylesheet" type="text/css" href="style.css">
 
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Form Validation</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="./style.css">
-
-</head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Form Validation</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="./style.css">
+        <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    </head>
     <body>
 
         <header>
@@ -27,6 +27,7 @@
             </ul>
         </header>
 
+
         <section id="home_stuff">
             <img src="stars.png" id="stars">
             <img src="gcs.png" id="gcs">
@@ -35,8 +36,26 @@
             <a href="#dash_info" id="btn">Dashboard</a>
             <img src="mountains_front.png" id="mountains_front">
         </section>
-
+        
+        <section id="popup">
+            <div class="popup-outer">
+                <div class="popup-box">
+                  <i id="close" class="bx bx-x close"></i>
+                    <div class="battery_popup_text">
+                        <img src="battery_icon.png" alt="">
+                        <div class="text">
+                            <span class="battext">Battery: </span>
+                            <span class="battext2">Last Recorded: </span>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </section>
+        
         <div class="container">
+
+            
             <section id="dash_info">
                 <h2>Ground Control Station Dashboard</h2>
                 <div class="content">
@@ -50,7 +69,17 @@
                         </p>
                     </div> -->
                 </div>
+                
             </section>
+
+            <section id="live_cam_sec">
+                <h2>Totally Real Live Drone Footage</h2>
+                <div class="content">
+                    <img src="Drone-pov.gif" alt="">
+                </div>
+                <span class="bg-element"></span>
+            </section>
+
 
             <section id="about_sec">
                 <h2><a href="#dash_info" id="about_btn">About</a></h2>
@@ -61,9 +90,15 @@
                 <h2><a href="#dash_info" id="urmomgay_btn">urmomgay</a></h2>
                 <p>yup. ur mom is gay.</p>
             </section>
+
+
+
         </div>
 
         <script src="main.js"></script>
+        <script src="battery_popup.js"></script>
+            
+    
         <script>
             let stars = document.getElementById('stars');
             let gcs = document.getElementById('gcs');
