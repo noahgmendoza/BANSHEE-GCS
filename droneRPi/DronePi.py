@@ -38,14 +38,16 @@ def data_transfer():
 
         size = int(size)
         #Send through array up to max
-        for x in range(size):
-            client_socket.send(sensor_data[x].encode('utf-8'))
-            Response_server = client_socket.recv(1024)
-            if Response_server.decode('utf-8') == 'Received':
-                print('\tSent item #' + str(x))
-            else:
-                client_socket.send(sensor_data[x].encode('utf-8')) #error checking
-        
+        try:
+            for x in range(size):
+                client_socket.send(sensor_data[x].encode('utf-8'))
+                Response_server = client_socket.recv(1024)
+                if Response_server.decode('utf-8') == 'Received':
+                    print('\tSent item #' + str(x))
+                else:
+                    client_socket.send(sensor_data[x].encode('utf-8')) #error checking
+        except Exception as e:
+            print(f"Error found: {e}")
         Response_server = client_socket.recv(1024)
         if Response_server.decode('utf-8') == 'Complete':
                 print('Robot Ground System Complete')
@@ -76,20 +78,21 @@ sending = 0
 GPIO.add_event_detect(17, GPIO.BOTH, callback=landing, bouncetime = 1000) #event listener for voltage change
    
 def main():
-    global  debounce_delay, sending
-    while True:
-        if landing_flag == False: #runs when drone is on the air
-            msg = mav.recv_match(type='HEARTBEAT', blocking=True)
-            #MAVLink_msg to dict
-            dict_msg=msg.to_dict()
-            print(dict_msg)
-            #dict to json
-            json_data=json.dumps(dict_msg)
-            #json added to array
-            sensor_data.append(json_data)
-            time.sleep(1)
-        else:
-            data_transfer() #start transfer data when the drone is on the GCS
-
+    try:
+        while True:
+            if landing_flag == False: #runs when drone is on the air
+                msg = mav.recv_match(type='HEARTBEAT', blocking=True)
+                #MAVLink_msg to dict
+                dict_msg=msg.to_dict()
+                print(dict_msg)
+                #dict to json
+                json_data=json.dumps(dict_msg)
+                #json added to array
+                sensor_data.append(json_data)
+                time.sleep(1)
+            else:
+                data_transfer() #start transfer data when the drone is on the GCS
+    except Exception as e:
+        print(f"Error found: {e}")
 if __name__=="__main__":
     main()
