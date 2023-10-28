@@ -2,6 +2,7 @@ const dashList = [
     {
         icon: "data_icon.png",
         title: "Flight Data",
+        btnaction: "#dash_info",
         action: "flight_data.html", //make another html to route this and fetch the json file
         name: "flight_btn",
         iconid: "flight_icon",
@@ -12,7 +13,8 @@ const dashList = [
     {
         icon: "battery_icon.png",
         title: "Battery Info",
-        action: "#dash_info",
+        btnaction: "#dash_info",
+        action: "battery_popup.html",
         name: "battery_btn",
         iconid: "battery_icon",
         description:
@@ -22,6 +24,7 @@ const dashList = [
     {
         icon: "data_icon.png",
         title: "Live Footage",
+        btnaction: "#live_cam_sec",
         action: "#live_cam_sec",
         name: "something1_btn",
         iconid: "something1_icon",
@@ -32,6 +35,7 @@ const dashList = [
     {
         icon: "data_icon.png",
         title: "Something",
+        btnaction: "#dash_info",
         action: "#about_sec",
         name: "something2_btn",
         iconid: "something2_icon",
@@ -42,6 +46,7 @@ const dashList = [
     {
         icon: "data_icon.png",
         title: "Something",
+        btnaction: "#dash_info",
         action: "#about_sec",
         name: "something3_btn",
         iconid: "something3_icon",
@@ -52,6 +57,7 @@ const dashList = [
     {
         icon: "data_icon.png",
         title: "Something",
+        btnaction: "#dash_info",
         action: "#about_sec",
         name: "something4_btn",
         iconid: "something3_icon",
@@ -67,7 +73,7 @@ const displayDash = () => {
     dashList.forEach(f => {
         const html = 
             `<div class="icon">
-                <a href="${f.action}">
+                <a href="${f.btnaction}">
                     <img src="${f.icon}" id="${f.iconid}" alt="" />
                 </a>    
             </div>

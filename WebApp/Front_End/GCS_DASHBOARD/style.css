@@ -194,7 +194,7 @@ section h2 {
 
 /* BATTERY POP-UP SECTION */
 
- .popup-outer {
+ .bpopup-outer {
     height: 100%;
     width: 100%;
     display: flex;
@@ -210,20 +210,28 @@ section h2 {
                 transform 0.2s 0s ease-in-out;
 }
 
-#popup.show .popup-outer {
+#bpopup.show .bpopup-outer {
     opacity: 10;
     pointer-events: auto;
     transform: scale(1);
 }
 
+.bpopup-box th {
+    text-align: center;
+    padding: 10px;
+}
 
-.popup-box img {
+.bpopup-box td {
+    padding-left: 10px;
+}
+
+.bpopup-box img {
     width: 70px;
     height: 70px;
     object-fit: cover;
     border-radius: 50%;
 }
-.popup-box {
+.bpopup-box {
     position: relative;
     background: #fff;
     border-radius: 12px;
@@ -232,7 +240,7 @@ section h2 {
     width: 100%;
 }
 
-.popup-box .close {
+.bpopup-box .close {
     position: absolute;
     top: 16px;
     right: 16px;
@@ -241,12 +249,79 @@ section h2 {
     transition: all 0.2s ease;
 }
 
-.popup-box .close:hover{
+.bpopup-box .close:hover{
     color: #2b1055;
 }
 
 
-.popup-box .battery_popup_text {
+.bpopup-box .battery_popup_text {
+    display: flex;
+    align-items: center;
+}
+
+.battery_popup_text .text {
+    display: flex;
+    flex-direction: column;
+    margin-left: 20px;
+}
+
+/* FLIGHT DATA POPUP SECTION */
+
+.fpopup-outer {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    background: rgba(0, 0, 0, 0.4);
+    opacity: 0;
+    pointer-events: none;
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+    transform: scale(1.2);
+    transition: opacity 0.2s 0s ease-in-out,
+                transform 0.2s 0s ease-in-out;
+}
+
+#fpopup.show .fpopup-outer {
+    opacity: 10;
+    pointer-events: auto;
+    transform: scale(1);
+}
+
+.fpopup-box th {
+    text-align: center;
+    padding: 10px;
+}
+
+.fpopup-box td {
+    padding-left: 10px;
+}
+
+.fpopup-box {
+    position: relative;
+    background: #fff;
+    border-radius: 12px;
+    padding: 30px;
+    max-width: 980px;
+    width: 100%;
+}
+
+.fpopup-box .close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    font-size: 24px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.fpopup-box .close:hover{
+    color: #2b1055;
+}
+
+
+.fpopup-box .flight_data_popup_text {
     display: flex;
     align-items: center;
 }

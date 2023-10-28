@@ -14,6 +14,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="./style.css">
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+        
     </head>
     <body>
 
@@ -37,20 +38,49 @@
             <img src="mountains_front.png" id="mountains_front">
         </section>
         
-        <section id="popup">
-            <div class="popup-outer">
-                <div class="popup-box">
-                  <i id="close" class="bx bx-x close"></i>
-                    <div class="battery_popup_text">
-                        <img src="battery_icon.png" alt="">
-                        <div class="text">
-                            <span class="battext">Battery: </span>
-                            <span class="battext2">Last Recorded: </span>
-                        </div>
+        <section id="bpopup">
+            <div class="bpopup-outer">
+                <div class="bpopup-box">
+                    <i id="close" class="bx bx-x close"></i>
+                    <table class="battery table table-bordered">
+                        <thead class= "battery able-dark">
+                        <tr>
+                            <th scope="col">Battery Chamber</th>
+                            <th scope="col">Voltage</th>
+                        </tr>
+                        </thead>
+                        <tbody id="btable_body">
                         
-                    </div>
+                        </tbody>
+                    </table>
                 </div>
             </div>
+            
+        </section>
+
+        <section id="fpopup">
+            <div class="fpopup-outer">
+                <div class="fpopup-box">
+                    <i id="close" class="bx bx-x close"></i>
+                    <table class="flight table table-bordered">
+                        <thead class= "flight table-dark">
+                        <tr>
+                            <th scope="col">mavpackettype</th>
+                            <th scope="col">type</th>
+                            <th scope="col">autopilot</th>
+                            <th scope="col">base_mode</th>
+                            <th scope="col">custom_mode</th>
+                            <th scope="col">system_status</th>
+                            <th scope="col">mavlink_version</th>
+                        </tr>
+                        </thead>
+                        <tbody id="ftable_body">
+                        
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
         </section>
         
         <div class="container">
@@ -96,8 +126,10 @@
         </div>
 
         <script src="main.js"></script>
+        <script src= flight_data.js> </script> 
         <script src="battery_popup.js"></script>
-            
+        <script src="battery_data.js"></script>
+        <script src="flight_data_popup.js"></script>
     
         <script>
             let stars = document.getElementById('stars');
