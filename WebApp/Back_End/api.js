@@ -100,6 +100,7 @@ async function writeUserData() {
         res.status(500).json({ error: 'Internal Server Error' });
       }
     });
+<<<<<<< HEAD
     app.get('/api/simple_voltage', async (req, res) => {
       try {
           const data = await fs.readFile('simple_voltage.json', 'utf-8');
@@ -110,6 +111,8 @@ async function writeUserData() {
           res.status(500).json({ error: 'Internal Server Error' });
         }
       });
+=======
+>>>>>>> 0cde796fceeda3a554497b234cb1edb06528dfa5
     
     app.get('/users', (req, res) => {
         res.json(users)
@@ -204,4 +207,8 @@ async function writeUserData() {
     app.listen(port, () => {
       console.log(`Server is running on port ${port}`);
     });
+<<<<<<< HEAD
     
+=======
+    
+>>>>>>> 0cde796fceeda3a554497b234cb1edb06528dfa5
