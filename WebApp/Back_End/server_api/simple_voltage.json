@@ -1,0 +1,37 @@
+{
+  "Voltage Data": [
+    {
+      "BatteryID": 1,
+      "Total Voltage": 86
+    },
+    {
+      "BatteryID": 2,
+      "Total Voltage": 42
+    },
+    {
+      "BatteryID": 3,
+      "Total Voltage": 54
+    },
+    {
+      "BatteryID": 4,
+      "Total Voltage": 78
+    },
+    {
+      "BatteryID": 5,
+      "Total Voltage": 65
+    },
+    {
+      "BatteryID": 6,
+      "Total Voltage": 81
+    },
+    {
+      "BatteryID": 7,
+      "Total Voltage": 82
+    },
+    {
+      "BatteryID": 8,
+      "Total Voltage": 89
+    }
+  ]
+}
+

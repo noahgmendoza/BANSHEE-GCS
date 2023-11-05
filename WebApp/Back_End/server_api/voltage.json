@@ -1,0 +1,67 @@
+{
+"Voltage Data": [
+  {
+    "BatteryID": 1 ,
+    "Total Voltage": 86,
+    "Cell 1": 76,
+    "Cell 2": 75,
+    "Cell 3": 80,
+    "Cell 4": 90
+  },
+  {
+    "BatteryID": 2 ,
+    "Total Voltage": 90,
+    "Cell 1": 79,
+    "Cell 2": 80,
+    "Cell 3": 94,
+    "Cell 4": 95
+  },
+  {"BatteryID": 3 ,
+    "Total Voltage": 86,
+    "Cell 1": 76,
+    "Cell 2": 75,
+    "Cell 3": 80,
+    "Cell 4": 90 },
+  {
+"BatteryID": 4 ,
+    "Total Voltage": 86,
+    "Cell 1": 76,
+    "Cell 2": 75,
+    "Cell 3": 80,
+    "Cell 4": 90
+  },
+  {  
+"BatteryID": 5 ,
+    "Total Voltage": 86,
+    "Cell 1": 76,
+    "Cell 2": 75,
+    "Cell 3": 80,
+    "Cell 4": 90  
+  },
+  {  
+"BatteryID": 6 ,
+    "Total Voltage": 86,
+    "Cell 1": 76,
+    "Cell 2": 75,
+    "Cell 3": 80,
+    "Cell 4": 90  
+  },
+  {  
+"BatteryID": 7 ,
+    "Total Voltage": 86,
+    "Cell 1": 76,
+    "Cell 2": 75,
+    "Cell 3": 80,
+    "Cell 4": 90  
+  },
+  {  
+"BatteryID": 8 ,
+    "Total Voltage": 86,
+    "Cell 1": 76,
+    "Cell 2": 75,
+    "Cell 3": 80,
+    "Cell 4": 90  
+  }
+]
+}
+
