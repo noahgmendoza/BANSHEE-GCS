@@ -88,6 +88,18 @@ async function writeUserData() {
         res.status(500).json({ error: 'Internal Server Error' });
       }
     });
+
+  // Define a GET route to read and return data from the JSON file
+  app.get('/api/voltage', async (req, res) => {
+    try {
+        const data = await fs.readFile('voltage.json', 'utf-8');
+        res.setHeader('Content-Type', 'application/json');
+        res.status(200).send(data);
+      } catch (err) {
+        console.error('Error:', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+      }
+    });
     
     app.get('/users', (req, res) => {
         res.json(users)
@@ -166,6 +178,7 @@ async function writeUserData() {
         
         // Send a success response
         res.status(200).json({ message: 'Data received and saved successfully', filename: filePath });
+        console.log('Sensor data received: ' + filePath);
       } catch (error) {
         console.error('Sensor data upload error:', error);
         res.status(500).json({ error: 'Internal server error' });
