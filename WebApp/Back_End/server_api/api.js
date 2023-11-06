@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt')
 const bodyParser = require('body-parser');
 const { v4: uuidv4 } = require('uuid'); // Import UUID library for generating unique filenames
 const cors = require('cors');
+const f_ops = require('file_ops')
 
 const app = express();
 const port = 80;
@@ -38,43 +39,10 @@ async function readUserData() {
   }
 }
 
-  
-// Function to write 'users' array to the JSON file
-async function writeUserData() {
-    try {
-      await fs.writeFile(profilePath, JSON.stringify(users, null, 2), 'utf-8');
-    } catch (err) {
-      // Handle errors if the file cannot be written
-      console.error('Error writing user data:', err);
-    }
-  }
-   
-  // Function to format a number as a two-digit string (e.g., 1 => "01")
-  function formatAsTwoDigitString(number) {
-    return number.toString().padStart(2, '0');
-  }
-  
-  // Function to add a filename to the array and return the updated list
-  function addFileName(filename) {
-    uploadedFileNames.push(filename);
-    return uploadedFileNames;
-  }
-  
-  
-  // Read filenames from the data directory and populate the array
-  async function populateFileNamesArray() {
-    try {
-      const filenames = await fs.readdir(database);
-      uploadedFileNames = filenames;
-    } catch (error) {
-      console.error('Error populating filenames array:', error);
-    }
-  }
-  
   // Populate the filenames array on startup
-  populateFileNamesArray();
+  f_ops.populateFileNamesArray();
   // Read initial user data when the server starts
-  readUserData();
+  f_ops.readUserData();
   
   
   // Define a GET route to read and return data from the JSON file
@@ -148,7 +116,7 @@ async function writeUserData() {
       app.post('/users/remove', async (req, res) => {
         try{
           users = users.filter(item => item.name !== req.body.name);
-          await writeUserData();
+          await f_ops.writeUserData();
           console.log('User removed: ' + req.body.name);
         }catch{
           res.status(500).send()
@@ -166,13 +134,13 @@ async function writeUserData() {
         
         // Extract the date components
         const year = currentDate.getFullYear();
-        const month = formatAsTwoDigitString(currentDate.getMonth() + 1); // Adding 1 because months are zero-based
-        const day = formatAsTwoDigitString(currentDate.getDate());
+        const month = f_ops.formatAsTwoDigitString(currentDate.getMonth() + 1); // Adding 1 because months are zero-based
+        const day = f_ops.formatAsTwoDigitString(currentDate.getDate());
     
         // Extract the time components
-        const hours = formatAsTwoDigitString(currentDate.getHours());
-        const minutes = formatAsTwoDigitString(currentDate.getMinutes());
-        const seconds = formatAsTwoDigitString(currentDate.getSeconds());
+        const hours = f_ops.formatAsTwoDigitString(currentDate.getHours());
+        const minutes = f_ops.formatAsTwoDigitString(currentDate.getMinutes());
+        const seconds = f_ops.formatAsTwoDigitString(currentDate.getSeconds());
     
         // Generate a filename based on date and time
         const filename = `${year}-${month}-${day}_${hours}-${minutes}-${seconds}.json`;
