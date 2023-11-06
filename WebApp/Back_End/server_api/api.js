@@ -27,22 +27,10 @@ app.use(express.json());
 // Middleware to parse JSON requests bodies
 app.use(bodyParser.json());
 
-// Check if the JSON file exists and read the initial data
-async function readUserData() {
-  try {
-    const data = await fs.readFile(profilePath, 'utf-8');
-    users = JSON.parse(data);
-    console.log('Users data loaded successfully:', users);
-  } catch (err) {
-    console.error('Error reading user data:', err);
-    users = [];
-  }
-}
-
   // Populate the filenames array on startup
   f_ops.populateFileNamesArray();
   // Read initial user data when the server starts
-  f_ops.readUserData();
+  f_ops.readUserData(profilePath);
   
   
   // Define a GET route to read and return data from the JSON file
