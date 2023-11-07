@@ -48,7 +48,6 @@ def handle_mech(client_socket):
         print("Initiate Battery Swap")
         client_socket.send("Go".encode('utf-8'))
 
-
         # Wait for Battery Swap to finish
         data = client_socket.recv(1024)
         while data.decode('utf-8') != 'Finished':
