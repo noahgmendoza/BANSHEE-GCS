@@ -27,10 +27,10 @@ app.use(express.json());
 // Middleware to parse JSON requests bodies
 app.use(bodyParser.json());
 
-  // Populate the filenames array on startup
-  f_ops.populateFileNamesArray();
-  // Read initial user data when the server starts
-  f_ops.readUserData(profilePath);
+// Populate the filenames array on startup
+f_ops.populateFileNamesArray();
+// Read initial user data when the server starts
+f_ops.readUserData(profilePath);
   
   
   // Define a GET route to read and return data from the JSON file
