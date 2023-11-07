@@ -24,7 +24,7 @@ io.on('connection', (socket) => {
   });
 });
 
-const serverIp = process.env.SERVER_IP || 'localhost';
+const serverIp = process.env.SERVER_IP || '149.28.81.138';
 const serverPort = process.env.SERVER_PORT || 80;
 
 server.listen(serverPort, serverIp, () => {
