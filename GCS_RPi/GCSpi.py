@@ -1,7 +1,7 @@
 import socket
 import threading
-#import neopixel
-#import board
+import neopixel
+import board
 import requests
 import sys
 
@@ -16,7 +16,7 @@ server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server_socket.bind((HOST, PORT))
 
 #LED setup
-#pixels = neopixel.NeoPixel(board.D18, 12)
+pixels = neopixel.NeoPixel(board.D18, 12)
 
 # Create an event to signal when the drone client is connected
 drone_landed = threading.Event()
@@ -80,7 +80,7 @@ def handle_drone(client_socket):
 
     try:
         for x in range(size):
-            json_data = client_socket.recv(4096)
+            json_data = client_socket.recv(2048)
             json_decoded = json_data.decode('utf-8')
             print(json_decoded)
             data_collect.append(json_decoded)  # Use append to add elements to the list
@@ -146,12 +146,12 @@ def main():
             drone_client_thread.join()
             print("Data transfer and Battery swap completed")
         
-            #Sensor upload
-            # print("Sensor Data upload")
-            # try:
-            #     requests.post("http://149.28.81.138:3000/sensor_data/upload", json = data_collect)
-            # except Exception as e:
-            #     print(f"Error found:  {e}")
+            #Sensor upload             
+            try:
+                requests.post("http://149.28.81.138:80/sensor_data/upload", json = data_collect)
+                print("Sensor Data uploaded")
+            except Exception as e:
+                print(f"Error found:  {e}")
                 
             #Clear data list
             print("Collected Data on GCS")
