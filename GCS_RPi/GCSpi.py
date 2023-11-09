@@ -3,6 +3,7 @@ import threading
 import neopixel
 import board
 import requests
+import RPi.GPIO as GPIO
 import sys
 
 # Server configuration
@@ -15,6 +16,9 @@ server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 # Bind the socket to the specified address and port
 server_socket.bind((HOST, PORT))
 
+#GPIO setup
+GPIO.setmode(GPIO.BOARD)
+GPIO.setup(16, GPIO.OUT)
 #LED setup
 pixels = neopixel.NeoPixel(board.D18, 12)
 
@@ -118,8 +122,8 @@ def main():
 
         while True:
             #Green LEDs
-            #pixels.fill((0,255,0))
-
+            pixels.fill((0,255,0))
+            GPIO.output(12, GPIO.LOW)
             while not(drone_connected and mech_connected):
                 client, address = server_socket.accept()
                 id = client.recv(1024)
@@ -131,13 +135,14 @@ def main():
                     mech_socket = client
                     
                 elif id.decode('utf-8') == "Drone":
+                    GPIO.output(12, GPIO.HIGH)
                     drone_client_thread = threading.Thread(target=handle_drone, args=(client,))
                     drone_client_thread.start()
                     drone_connected = True
                     drone_socket = client
 
                     #LEDs RED: Drone Landed
-                    #pixels.fill(255,0,0)
+                    pixels.fill(255,0,0)
                 else:
                     print("ERROR")
                     client.close()
@@ -158,13 +163,13 @@ def main():
             print(data_collect)
             data_collect.clear()
             
-    except KeyboardInterrupt:
-        print("KeyboardInterrupt: Closing connections and exiting...")
+    finally:
         if mech_connected:
             mech_socket.close()
         if drone_connected:
             drone_socket.close()
         server_socket.close()
+        GPIO.cleanup()
         sys.exit(1)  # Exit the program with a non-zero status code
 
 
