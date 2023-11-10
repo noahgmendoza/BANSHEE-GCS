@@ -87,20 +87,19 @@ def handle_drone(client_socket):
 
     # Data transfer
     print("Data transferring")
+
     try:
         size_data = client_socket.recv(1024)
         size = int(size_data.decode('utf-8'))
 
         expected_sequence = 0
-        received_data = ""
+        received_data = []
 
         while expected_sequence < size:
             json_data = client_socket.recv(4096)
-            received_data += json_data.decode('utf-8')
+            received_data.append(json_data.decode('utf-8'))
 
-            data_list = received_data.split("\n")
-
-            for json_decoded in data_list:
+            for json_decoded in received_data:
                 try:
                     data = json.loads(json_decoded)
                     received_sequence = data.get("sequence")
@@ -112,16 +111,12 @@ def handle_drone(client_socket):
                         expected_sequence += 1
                     else:
                         client_socket.send(f"ACK: {expected_sequence - 1}".encode('utf-8'))
-                        # Reset the loop to reprocess the received data
-                        received_data = "\n".join(data_list[data_list.index(json_decoded):])
-                        break
                 except json.JSONDecodeError as e:
                     print(f"JSON Decode Error: {e}")
                     # If there's a decode error, means data isn't complete, continue to receive more data
 
     except Exception as e:
         print(f"Error found: {e}")
-
 
 
     #Wait for battery swap to finish
