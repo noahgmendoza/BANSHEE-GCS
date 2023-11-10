@@ -7,7 +7,7 @@ import RPi.GPIO as GPIO
 import sys
 
 # Server configuration
-HOST = '149.28.81.138'
+HOST = '192.168.1.94'
 PORT = 80
 
 # Create a socket
