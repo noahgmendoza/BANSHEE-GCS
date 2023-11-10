@@ -94,22 +94,31 @@ def handle_drone(client_socket):
 
     try:
         expected_sequence = 0
+
+        # Receiving the size of incoming data
+        size_data = client_socket.recv(1024)
+        size = int(size_data.decode('utf-8'))
+
         while expected_sequence < size:
             json_data = client_socket.recv(4096)
             json_decoded = json_data.decode('utf-8')
-            
-            # Parse the JSON received
-            data = json.loads(json_decoded)
-            received_sequence = data.get("sequence")
-            received_data = data.get("data")
 
-            if received_sequence == expected_sequence:
-                data_collect.append(received_data)
-                client_socket.send(f"ACK: {expected_sequence}".encode('utf-8'))
-                expected_sequence += 1
-            else:
-                # If the received sequence number doesn't match the expected one, request retransmission
-                client_socket.send(f"ACK: {expected_sequence - 1}".encode('utf-8'))
+            try:
+                data = json.loads(json_decoded)
+                received_sequence = data.get("sequence")
+                received_data = data.get("data")
+
+                if received_sequence == expected_sequence:
+                    # Process the received data (here, just printing)
+                    print(f'Received item #{expected_sequence}: {received_data}')
+                    client_socket.send(f"ACK: {expected_sequence}".encode('utf-8'))
+                    expected_sequence += 1
+                else:
+                    # Request retransmission for the current expected_sequence
+                    client_socket.send(f"ACK: {expected_sequence - 1}".encode('utf-8'))
+            except json.JSONDecodeError as e:
+                print(f"JSON Decode Error: {e}")
+
     except Exception as e:
         print(f"Error found: {e}")
 
