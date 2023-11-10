@@ -1,13 +1,14 @@
 import socket
 import threading
-#import neopixel
-#import board
+import neopixel
+import board
 import requests
+import RPi.GPIO as GPIO
 import sys
 
 # Server configuration
-HOST = '149.28.81.138'
-PORT = 80
+HOST = '192.168.1.94'
+PORT = 7777
 
 # Create a socket
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -15,8 +16,14 @@ server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 # Bind the socket to the specified address and port
 server_socket.bind((HOST, PORT))
 
+# Check the current mode before setting
+if GPIO.getmode() is None:
+    GPIO.setmode(GPIO.BOARD)
+else:
+    print("GPIO mode already set to:", GPIO.getmode())
+GPIO.setup(23, GPIO.OUT)
 #LED setup
-#pixels = neopixel.NeoPixel(board.D18, 12)
+pixels = neopixel.NeoPixel(board.D18, 30)
 
 # Create an event to signal when the drone client is connected
 drone_landed = threading.Event()
@@ -118,8 +125,8 @@ def main():
 
         while True:
             #Green LEDs
-            #pixels.fill((0,255,0))
-
+            pixels.fill((0,255,0))
+            GPIO.output(23, GPIO.LOW)
             while not(drone_connected and mech_connected):
                 client, address = server_socket.accept()
                 id = client.recv(1024)
@@ -131,13 +138,14 @@ def main():
                     mech_socket = client
                     
                 elif id.decode('utf-8') == "Drone":
+                    GPIO.output(23, GPIO.HIGH)
                     drone_client_thread = threading.Thread(target=handle_drone, args=(client,))
                     drone_client_thread.start()
                     drone_connected = True
                     drone_socket = client
 
                     #LEDs RED: Drone Landed
-                    #pixels.fill(255,0,0)
+                    pixels.fill((255,0,0))
                 else:
                     print("ERROR")
                     client.close()
@@ -146,10 +154,10 @@ def main():
             drone_client_thread.join()
             print("Data transfer and Battery swap completed")
         
-            #Sensor upload
-            # print("Sensor Data upload")
+            #Sensor upload             
             # try:
-            #     requests.post("http://149.28.81.138:3000/sensor_data/upload", json = data_collect)
+            #     requests.post("http://149.28.81.138:80/sensor_data/upload", json = data_collect)
+            #     print("Sensor Data uploaded")
             # except Exception as e:
             #     print(f"Error found:  {e}")
                 
@@ -159,12 +167,12 @@ def main():
             data_collect.clear()
             
     except KeyboardInterrupt:
-        print("KeyboardInterrupt: Closing connections and exiting...")
         if mech_connected:
             mech_socket.close()
         if drone_connected:
             drone_socket.close()
         server_socket.close()
+        GPIO.cleanup()
         sys.exit(1)  # Exit the program with a non-zero status code
 
 
