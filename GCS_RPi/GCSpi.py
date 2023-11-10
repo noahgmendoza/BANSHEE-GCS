@@ -16,6 +16,7 @@ server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 # Bind the socket to the specified address and port
 server_socket.bind((HOST, PORT))
 
+GPIO.cleanup()
 # Check the current mode before setting
 if GPIO.getmode() is None:
     GPIO.setmode(GPIO.BOARD)
