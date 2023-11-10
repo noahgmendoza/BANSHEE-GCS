@@ -166,7 +166,7 @@ def main():
             print(data_collect)
             data_collect.clear()
             
-    finally:
+    except KeyboardInterrupt:
         if mech_connected:
             mech_socket.close()
         if drone_connected:
