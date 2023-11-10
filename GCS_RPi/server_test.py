@@ -75,9 +75,13 @@ def handle_drone(client_socket):
     # Data transfer
     print("Data transferring")
     size_rec = client_socket.recv(1024)  # Receive the length of the list in binary
-    size = size_rec.decode('utf-8')
-    print('Size of list', size)
-    size = int(size)  # Convert the string to an int
+    size = size_rec.decode('utf-8').strip()  # Remove whitespace if any
+    if size:
+        print('Size of list:', size)
+        size = int(size)  # Convert the string to an int
+        # Continue with the rest of your code handling the received size
+    else:
+        print("No data received for size")
 
     try:
         for x in range(size):
