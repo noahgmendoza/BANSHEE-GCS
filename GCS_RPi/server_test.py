@@ -179,7 +179,7 @@ def main():
 
             # Wait for both client handling threads to finish
             drone_client_thread.join()
-            print("Data transfer and Battery swap completed")
+            #print("Data transfer and Battery swap completed")
 
             #Sensor upload
             # print("Sensor Data uploaded")
