@@ -9,7 +9,7 @@ import json
 
 # Server configuration
 HOST = '149.28.81.138'
-PORT = 80
+PORT = 6000
 
 # Create a socket
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
