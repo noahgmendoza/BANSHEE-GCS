@@ -126,7 +126,7 @@ def main():
         while True:
             #Green LEDs
             pixels.fill((0,255,0))
-            GPIO.output(16, GPIO.LOW)
+            GPIO.output(23, GPIO.LOW)
             while not(drone_connected and mech_connected):
                 client, address = server_socket.accept()
                 id = client.recv(1024)
@@ -138,7 +138,7 @@ def main():
                     mech_socket = client
                     
                 elif id.decode('utf-8') == "Drone":
-                    GPIO.output(16, GPIO.HIGH)
+                    GPIO.output(23, GPIO.HIGH)
                     drone_client_thread = threading.Thread(target=handle_drone, args=(client,))
                     drone_client_thread.start()
                     drone_connected = True
