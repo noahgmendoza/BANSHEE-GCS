@@ -1,29 +1,33 @@
 import socket
 import threading
-import neopixel
-import board
+#import neopixel
+#import board
 import requests
-import RPi.GPIO as GPIO
+#import RPi.GPIO as GPIO
 import sys
 
 # Server configuration
-HOST = '192.168.1.94'
-PORT = 7777
+# HOST = '192.168.1.94'
+# PORT = 7777
+HOST = '149.28.81.138'
+PORT = 6000
+
+#Pin definitions:
+interruptPin = 16 #Board pin 36
+#ledPin = board.D18 #Board pin 12
+num_pixels = 12
+# if GPIO.getmode() == 11:
+#     print("Pins set to BCM")
+# else:
+#     print("Pin set to BOARD")
+# GPIO.setup(interruptPin, GPIO.OUT) #Set to output pin
+#pixels = neopixel.NeoPixel(ledPin, num_pixels)
 
 # Create a socket
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 # Bind the socket to the specified address and port
 server_socket.bind((HOST, PORT))
-
-# Check the current mode before setting
-if GPIO.getmode() is None:
-    GPIO.setmode(GPIO.BOARD)
-else:
-    print("GPIO mode already set to:", GPIO.getmode())
-GPIO.setup(23, GPIO.OUT)
-#LED setup
-pixels = neopixel.NeoPixel(board.D18, 30)
 
 # Create an event to signal when the drone client is connected
 drone_landed = threading.Event()
@@ -76,7 +80,7 @@ def handle_drone(client_socket):
     
     # Signal that the drone client is connected
     drone_landed.set()
-    client_socket.send("Ready for transfer".encode('utf-8'))
+    client_socket.send("Ready".encode('utf-8'))
 
     # Data transfer
     print("Data transferring")
@@ -104,11 +108,11 @@ def handle_drone(client_socket):
     client_socket.send("Complete".encode('utf-8'))
 
     # Wait for drone takeoff msg
-    msg = ''
-    while msg != 'Takeoff':
+    while msg != "Takeoff":
         msg = client_socket.recv(1024)
         msg = msg.decode('utf-8')
     print(msg)
+    client_socket.send("Received".encode("utf-8"))
 
     drone_connected = False
     mech_swap.clear()
@@ -125,8 +129,8 @@ def main():
 
         while True:
             #Green LEDs
-            pixels.fill((0,255,0))
-            GPIO.output(23, GPIO.LOW)
+            #pixels.fill((0,255,0))
+            #GPIO.output(interruptPin, GPIO.LOW)
             while not(drone_connected and mech_connected):
                 client, address = server_socket.accept()
                 id = client.recv(1024)
@@ -138,14 +142,14 @@ def main():
                     mech_socket = client
                     
                 elif id.decode('utf-8') == "Drone":
-                    GPIO.output(23, GPIO.HIGH)
+                    #GPIO.output(interruptPin, GPIO.HIGH)
                     drone_client_thread = threading.Thread(target=handle_drone, args=(client,))
                     drone_client_thread.start()
                     drone_connected = True
                     drone_socket = client
 
                     #LEDs RED: Drone Landed
-                    pixels.fill((255,0,0))
+                    #pixels.fill((255,0,0))
                 else:
                     print("ERROR")
                     client.close()
@@ -172,7 +176,7 @@ def main():
         if drone_connected:
             drone_socket.close()
         server_socket.close()
-        GPIO.cleanup()
+        #GPIO.cleanup()
         sys.exit(1)  # Exit the program with a non-zero status code
 
 

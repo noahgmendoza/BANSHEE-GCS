@@ -15,8 +15,16 @@ server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 # Bind the socket to the specified address and port
 server_socket.bind((HOST, PORT))
 
-#LED setup
-#pixels = neopixel.NeoPixel(board.D18, 12)
+#Pin definitions:
+interruptPin = 16 #Board pin 36
+#ledPin = board.D18 #Board pin 12
+num_pixels = 12
+# if GPIO.getmode() == 11:
+#     print("Pins set to BCM")
+# else:
+#     print("Pin set to BOARD")
+# GPIO.setup(interruptPin, GPIO.OUT) #Set to output pin
+#pixels = neopixel.NeoPixel(ledPin, num_pixels)
 
 # Create an event to signal when the drone client is connected
 drone_landed = threading.Event()
@@ -120,7 +128,7 @@ def main():
         while True:
             #Green LEDs
             #pixels.fill((0,255,0))
-
+            #GPIO.output(interruptPin, GPIO.LOW) #Lock Mech off
             while not(drone_connected and mech_connected):
                 client, address = server_socket.accept()
                 id = client.recv(1024)
@@ -132,13 +140,15 @@ def main():
                     mech_socket = client
                     
                 elif id.decode('utf-8') == "Drone":
+                    #GPIO.output(interruptPin, GPIO.HIGH) #Lock Mech on
+                    #LEDs RED: Drone Landed
+                    #pixels.fill(255,0,0)
                     drone_client_thread = threading.Thread(target=handle_drone, args=(client,))
                     drone_client_thread.start()
                     drone_connected = True
                     drone_socket = client
 
-                    #LEDs RED: Drone Landed
-                    #pixels.fill(255,0,0)
+
                 else:
                     print("ERROR")
                     client.close()
@@ -146,9 +156,9 @@ def main():
             # Wait for both client handling threads to finish
             drone_client_thread.join()
             print("Data transfer and Battery swap completed")
-        
+
             #Sensor upload
-            # print("Sensor Data upload")
+            # print("Sensor Data uploaded")
             # try:
             #     requests.post("http://149.28.81.138:3000/sensor_data/upload", json = data_collect)
             # except Exception as e:
