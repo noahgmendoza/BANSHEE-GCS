@@ -8,7 +8,7 @@ import sys
 
 # Server configuration
 HOST = '192.168.1.94'
-PORT = 80
+PORT = 7777
 
 # Create a socket
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
