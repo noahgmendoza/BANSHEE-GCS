@@ -126,7 +126,7 @@ def main():
         while True:
             #Green LEDs
             pixels.fill((0,255,0))
-            GPIO.output(12, GPIO.LOW)
+            GPIO.output(16, GPIO.LOW)
             while not(drone_connected and mech_connected):
                 client, address = server_socket.accept()
                 id = client.recv(1024)
