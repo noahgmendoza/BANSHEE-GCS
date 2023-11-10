@@ -189,8 +189,8 @@ def main():
             #     print(f"Error found:  {e}")
                 
             #Clear data list
-            print("Collected Data on GCS")
-            print(data_collect)
+            #print("Collected Data on GCS")
+            #print(data_collect)
             data_collect.clear()
             
     except KeyboardInterrupt:
