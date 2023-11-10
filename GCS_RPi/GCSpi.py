@@ -87,7 +87,7 @@ def handle_drone(client_socket):
 
     try:
         for x in range(size):
-            json_data = client_socket.recv(2048)
+            json_data = client_socket.recv(4096)
             json_decoded = json_data.decode('utf-8')
             print(json_decoded)
             data_collect.append(json_decoded)  # Use append to add elements to the list
@@ -155,11 +155,11 @@ def main():
             print("Data transfer and Battery swap completed")
         
             #Sensor upload             
-            try:
-                requests.post("http://149.28.81.138:80/sensor_data/upload", json = data_collect)
-                print("Sensor Data uploaded")
-            except Exception as e:
-                print(f"Error found:  {e}")
+            # try:
+            #     requests.post("http://149.28.81.138:80/sensor_data/upload", json = data_collect)
+            #     print("Sensor Data uploaded")
+            # except Exception as e:
+            #     print(f"Error found:  {e}")
                 
             #Clear data list
             print("Collected Data on GCS")
