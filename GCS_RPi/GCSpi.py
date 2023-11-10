@@ -23,7 +23,15 @@ else:
     print("GPIO mode already set to:", GPIO.getmode())
 GPIO.setup(23, GPIO.OUT)
 #LED setup
-pixels = neopixel.NeoPixel(24, 12)
+# Define the BCM pin number equivalent to the board.D18 pin
+bcm_pin = 24  # Assuming board.D18 corresponds to BCM pin 18
+
+# Set up the GPIO pin for output
+GPIO.setup(bcm_pin, GPIO.OUT)
+
+# Create a pin object compatible with NeoPixel library
+pin = GPIO.output(bcm_pin, GPIO.LOW)  # You might need to adapt this to match NeoPixel requirements
+pixels = neopixel.NeoPixel(pin, 12)
 
 # Create an event to signal when the drone client is connected
 drone_landed = threading.Event()
