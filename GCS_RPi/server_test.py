@@ -4,7 +4,6 @@ import threading
 #import board
 import requests
 import sys
-import time
 
 # Server configuration
 HOST = '149.28.81.138'
@@ -16,16 +15,8 @@ server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 # Bind the socket to the specified address and port
 server_socket.bind((HOST, PORT))
 
-#Pin definitions:
-interruptPin = 16 #Board pin 36
-#ledPin = board.D18 #Board pin 12
-num_pixels = 12
-# if GPIO.getmode() == 11:
-#     print("Pins set to BCM")
-# else:
-#     print("Pin set to BOARD")
-# GPIO.setup(interruptPin, GPIO.OUT) #Set to output pin
-#pixels = neopixel.NeoPixel(ledPin, num_pixels)
+#LED setup
+#pixels = neopixel.NeoPixel(board.D18, 12)
 
 # Create an event to signal when the drone client is connected
 drone_landed = threading.Event()
@@ -77,9 +68,6 @@ def handle_drone(client_socket):
     global drone_connected
     print("Drone is connected")
     
-    # Record the starting time
-    start_time = time.perf_counter()
-
     # Signal that the drone client is connected
     drone_landed.set()
     client_socket.send("Ready".encode('utf-8'))
@@ -109,13 +97,6 @@ def handle_drone(client_socket):
     print("Robot Ground System completed")
     client_socket.send("Complete".encode('utf-8'))
 
-    # Record the ending time
-    end_time = time.perf_counter()
-
-    # Calculate the execution time
-    execution_time = end_time - start_time
-    print(f"Execution time: {execution_time} seconds")
-
     # Wait for drone takeoff msg
     msg = ''
     while msg != 'Takeoff':
@@ -139,7 +120,7 @@ def main():
         while True:
             #Green LEDs
             #pixels.fill((0,255,0))
-            #GPIO.output(interruptPin, GPIO.LOW) #Lock Mech off
+
             while not(drone_connected and mech_connected):
                 client, address = server_socket.accept()
                 id = client.recv(1024)
@@ -151,15 +132,13 @@ def main():
                     mech_socket = client
                     
                 elif id.decode('utf-8') == "Drone":
-                    #GPIO.output(interruptPin, GPIO.HIGH) #Lock Mech on
-                    #LEDs RED: Drone Landed
-                    #pixels.fill(255,0,0)
                     drone_client_thread = threading.Thread(target=handle_drone, args=(client,))
                     drone_client_thread.start()
                     drone_connected = True
                     drone_socket = client
 
-
+                    #LEDs RED: Drone Landed
+                    #pixels.fill(255,0,0)
                 else:
                     print("ERROR")
                     client.close()
@@ -167,9 +146,9 @@ def main():
             # Wait for both client handling threads to finish
             drone_client_thread.join()
             print("Data transfer and Battery swap completed")
-
+        
             #Sensor upload
-            # print("Sensor Data uploaded")
+            # print("Sensor Data upload")
             # try:
             #     requests.post("http://149.28.81.138:3000/sensor_data/upload", json = data_collect)
             # except Exception as e:
