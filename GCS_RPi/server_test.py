@@ -5,11 +5,10 @@ import threading
 import requests
 import sys
 import time
-import json
 
 # Server configuration
 HOST = '149.28.81.138'
-PORT = 6000
+PORT = 80
 
 # Create a socket
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -87,34 +86,18 @@ def handle_drone(client_socket):
 
     # Data transfer
     print("Data transferring")
+    size_rec = client_socket.recv(1024)  # Receive the length of the list in binary
+    size = size_rec.decode('utf-8')
+    print('Size of list', size)
+    size = int(size)  # Convert the string to an int
 
     try:
-        size_data = client_socket.recv(1024)
-        size = int(size_data.decode('utf-8'))
-
-        expected_sequence = 0
-        received_data = []
-
-        while expected_sequence < size:
+        for x in range(size):
             json_data = client_socket.recv(4096)
-            received_data.append(json_data.decode('utf-8'))
-
-            for json_decoded in received_data:
-                try:
-                    data = json.loads(json_decoded)
-                    received_sequence = data.get("sequence")
-                    received_data = data.get("data")
-
-                    if received_sequence == expected_sequence:
-                        print(f'Received item #{expected_sequence}: {received_data}')
-                        client_socket.send(f"ACK: {expected_sequence}".encode('utf-8'))
-                        expected_sequence += 1
-                    else:
-                        client_socket.send(f"ACK: {expected_sequence - 1}".encode('utf-8'))
-                except json.JSONDecodeError as e:
-                    print(f"JSON Decode Error: {e}")
-                    # If there's a decode error, means data isn't complete, continue to receive more data
-
+            json_decoded = json_data.decode('utf-8')
+            print(json_decoded)
+            data_collect.append(json_decoded)  # Use append to add elements to the list
+            client_socket.send("Received".encode('utf-8'))
     except Exception as e:
         print(f"Error found: {e}")
 
@@ -183,7 +166,7 @@ def main():
 
             # Wait for both client handling threads to finish
             drone_client_thread.join()
-            #print("Data transfer and Battery swap completed")
+            print("Data transfer and Battery swap completed")
 
             #Sensor upload
             # print("Sensor Data uploaded")
@@ -193,8 +176,8 @@ def main():
             #     print(f"Error found:  {e}")
                 
             #Clear data list
-            #print("Collected Data on GCS")
-            #print(data_collect)
+            print("Collected Data on GCS")
+            print(data_collect)
             data_collect.clear()
             
     except KeyboardInterrupt:
@@ -209,4 +192,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
