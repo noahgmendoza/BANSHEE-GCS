@@ -145,7 +145,7 @@ def main():
 
             # Wait for both client handling threads to finish
             drone_client_thread.join()
-            print("Data transfer and Battery swap completed")
+            #print("Data transfer and Battery swap completed")
         
             #Sensor upload
             # print("Sensor Data upload")
@@ -155,8 +155,8 @@ def main():
             #     print(f"Error found:  {e}")
                 
             #Clear data list
-            print("Collected Data on GCS")
-            print(data_collect)
+            #print("Collected Data on GCS")
+            #print(data_collect)
             data_collect.clear()
             
     except KeyboardInterrupt:
