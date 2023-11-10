@@ -87,17 +87,11 @@ def handle_drone(client_socket):
 
     # Data transfer
     print("Data transferring")
-    size_rec = client_socket.recv(1024)  # Receive the length of the list in binary
-    size = size_rec.decode('utf-8')
-    print('Size of list', size)
-    size = int(size)  # Convert the string to an int
-
     try:
-        expected_sequence = 0
-
-        # Receiving the size of incoming data
         size_data = client_socket.recv(1024)
         size = int(size_data.decode('utf-8'))
+
+        expected_sequence = 0
 
         while expected_sequence < size:
             json_data = client_socket.recv(4096)
