@@ -16,8 +16,11 @@ server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 # Bind the socket to the specified address and port
 server_socket.bind((HOST, PORT))
 
-#GPIO setup
-GPIO.setmode(GPIO.BOARD)
+# Check the current mode before setting
+if GPIO.getmode() is None:
+    GPIO.setmode(GPIO.BOARD)
+else:
+    print("GPIO mode already set to:", GPIO.getmode())
 GPIO.setup(16, GPIO.OUT)
 #LED setup
 pixels = neopixel.NeoPixel(board.D18, 12)
