@@ -5,6 +5,7 @@ import threading
 import requests
 import sys
 import time
+import json
 
 # Server configuration
 HOST = '149.28.81.138'
@@ -97,9 +98,10 @@ def handle_drone(client_socket):
             json_data = client_socket.recv(4096)
             json_decoded = json_data.decode('utf-8')
             
-            # Extract the sequence number from the received data
-            received_sequence = int(json_decoded.split(',')[0])
-            received_data = json_decoded.split(',')[1]
+            # Parse the JSON received
+            data = json.loads(json_decoded)
+            received_sequence = data.get("sequence")
+            received_data = data.get("data")
 
             if received_sequence == expected_sequence:
                 data_collect.append(received_data)
