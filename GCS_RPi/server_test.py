@@ -92,14 +92,25 @@ def handle_drone(client_socket):
     size = int(size)  # Convert the string to an int
 
     try:
-        for x in range(size):
+        expected_sequence = 0
+        while expected_sequence < size:
             json_data = client_socket.recv(4096)
             json_decoded = json_data.decode('utf-8')
-            print(json_decoded)
-            data_collect.append(json_decoded)  # Use append to add elements to the list
-            client_socket.send("Received".encode('utf-8'))
+            
+            # Extract the sequence number from the received data
+            received_sequence = int(json_decoded.split(',')[0])
+            received_data = json_decoded.split(',')[1]
+
+            if received_sequence == expected_sequence:
+                data_collect.append(received_data)
+                client_socket.send(f"ACK: {expected_sequence}".encode('utf-8'))
+                expected_sequence += 1
+            else:
+                # If the received sequence number doesn't match the expected one, request retransmission
+                client_socket.send(f"ACK: {expected_sequence - 1}".encode('utf-8'))
     except Exception as e:
         print(f"Error found: {e}")
+
 
 
     #Wait for battery swap to finish
