@@ -4,6 +4,7 @@ import threading
 #import board
 import requests
 import sys
+import time
 
 # Server configuration
 HOST = '149.28.81.138'
@@ -76,6 +77,9 @@ def handle_drone(client_socket):
     global drone_connected
     print("Drone is connected")
     
+    # Record the starting time
+    start_time = time.perf_counter()
+
     # Signal that the drone client is connected
     drone_landed.set()
     client_socket.send("Ready".encode('utf-8'))
@@ -104,6 +108,13 @@ def handle_drone(client_socket):
     #Inform drone: RGS done
     print("Robot Ground System completed")
     client_socket.send("Complete".encode('utf-8'))
+
+    # Record the ending time
+    end_time = time.perf_counter()
+
+    # Calculate the execution time
+    execution_time = end_time - start_time
+    print(f"Execution time: {execution_time} seconds")
 
     # Wait for drone takeoff msg
     msg = ''
