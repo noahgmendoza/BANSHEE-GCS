@@ -138,7 +138,7 @@ def main():
                     mech_socket = client
                     
                 elif id.decode('utf-8') == "Drone":
-                    GPIO.output(12, GPIO.HIGH)
+                    GPIO.output(16, GPIO.HIGH)
                     drone_client_thread = threading.Thread(target=handle_drone, args=(client,))
                     drone_client_thread.start()
                     drone_connected = True
