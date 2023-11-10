@@ -145,7 +145,7 @@ def main():
                     drone_socket = client
 
                     #LEDs RED: Drone Landed
-                    pixels.fill(255,0,0)
+                    pixels.fill((255,0,0))
                 else:
                     print("ERROR")
                     client.close()
