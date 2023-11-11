@@ -137,3 +137,4 @@ const ModalWindow = {
 document.addEventListener("DOMContentLoaded", () => ModalWindow.init());
 
 //ModalWindow.openModal({title: 'NOTIFICATION', content:'The UAV has landed.'}); //call this function when the UAV lands
+

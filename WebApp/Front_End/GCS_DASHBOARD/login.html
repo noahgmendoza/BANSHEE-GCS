@@ -43,11 +43,10 @@
 
 			<!-- signup form -->
 			<div class="signup-box">
-				<input type="text" class="name ele" placeholder="Enter Your Name">
-				<input type="email" class="email ele" placeholder="youremail@email.com">
-				<input type="password" class="password ele" placeholder="Password">
-				<input type="password" class="password ele" placeholder="Confirm Password">
-				<button class="clkbtn">Signup</button>
+				<input type="email" class="email ele" autofocus placeholder="youremail@email.com" id = "newEmail">
+				<input type="password" class="password ele" autofocus placeholder="Password" id = "newPassword">
+				<input type="password" class="password ele" autofocus placeholder="Confirm Password" id = "confirmPassword">
+				<button class="clkbtn" type="button" onclick="submitForm()">Signup</button>
 			</div>
 		</div>
 	</div>

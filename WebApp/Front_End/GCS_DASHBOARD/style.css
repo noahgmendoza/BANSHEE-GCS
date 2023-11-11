@@ -14,17 +14,15 @@ body {
 }
 
 header {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    padding: 30px 100px;
+    padding: 10px 100px;
     display: flex;
-    
     justify-content: space-between;
     align-items: center;
     z-index: 10000;
-
 }
 
 header .logo {
