@@ -189,6 +189,7 @@ section h2 {
     grid-template-columns: 1fr 1fr 1fr;
     gap: 24px;
     padding-bottom: 25px;
+    padding-top: 25px;
     
 }
 
@@ -360,7 +361,7 @@ section h2 {
 
 #live_cam_sec .bg-element {
     position: absolute;
-    height: 1375px;
+    height: 740px;
     background: #0a0a0a;
     left: 150px;
     right: 150px;
@@ -368,6 +369,8 @@ section h2 {
     z-index: -1;
     border-bottom-left-radius: 20px;
     border-bottom-right-radius: 20px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
     
 }
 
