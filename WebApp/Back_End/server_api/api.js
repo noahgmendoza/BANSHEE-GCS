@@ -29,7 +29,7 @@ app.use(express.json());
 app.use(bodyParser.json());
 
 // Populate the filenames array on startup
-f_ops.populateFileNamesArray(database);
+uploadedFileNames = f_ops.populateFileNamesArray(database);
 // Read initial user data when the server starts
 f_ops.readUserData(profilePath);
   
