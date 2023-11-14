@@ -12,7 +12,7 @@ const port = 80;
 
 const dataFilePath = path.join(__dirname, 'sensor_data/sample_data.json'); // Update with your JSON file path
 const profilePath = path.join(__dirname, 'profiles/login.json'); // Update with your JSON file path
-const database = path.join(__dirname, 'sensor_data'); //data directory 
+//const database = path.join(__dirname, 'sensor_data'); //data directory 
 
 
 let users = [];
@@ -29,7 +29,18 @@ app.use(express.json());
 app.use(bodyParser.json());
 
 // Populate the filenames array on startup
-uploadedFileNames = f_ops.populateFileNamesArray(database);
+async function initialize() {
+  try {
+      const database = 'sensor_data'; // Set the correct path
+      const uploadedFileNames = await f_ops.populateFileNamesArray(database);
+      console.log('Uploaded file names:', uploadedFileNames);
+  } catch (error) {
+      console.error('Error during initialization:', error);
+  }
+}
+
+// Call the initialize function
+initialize();
 // Read initial user data when the server starts
 f_ops.readUserData(profilePath);
   
