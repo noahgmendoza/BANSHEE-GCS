@@ -1,67 +1,68 @@
 {
-"Voltage Data": [
-  {
-    "BatteryID": 1 ,
-    "Total Voltage": 86,
-    "Cell 1": 76,
-    "Cell 2": 75,
-    "Cell 3": 80,
-    "Cell 4": 90
-  },
-  {
-    "BatteryID": 2 ,
-    "Total Voltage": 90,
-    "Cell 1": 79,
-    "Cell 2": 80,
-    "Cell 3": 94,
-    "Cell 4": 95
-  },
-  {"BatteryID": 3 ,
-    "Total Voltage": 86,
-    "Cell 1": 76,
-    "Cell 2": 75,
-    "Cell 3": 80,
-    "Cell 4": 90 },
-  {
-"BatteryID": 4 ,
-    "Total Voltage": 86,
-    "Cell 1": 76,
-    "Cell 2": 75,
-    "Cell 3": 80,
-    "Cell 4": 90
-  },
-  {  
-"BatteryID": 5 ,
-    "Total Voltage": 86,
-    "Cell 1": 76,
-    "Cell 2": 75,
-    "Cell 3": 80,
-    "Cell 4": 90  
-  },
-  {  
-"BatteryID": 6 ,
-    "Total Voltage": 86,
-    "Cell 1": 76,
-    "Cell 2": 75,
-    "Cell 3": 80,
-    "Cell 4": 90  
-  },
-  {  
-"BatteryID": 7 ,
-    "Total Voltage": 86,
-    "Cell 1": 76,
-    "Cell 2": 75,
-    "Cell 3": 80,
-    "Cell 4": 90  
-  },
-  {  
-"BatteryID": 8 ,
-    "Total Voltage": 86,
-    "Cell 1": 76,
-    "Cell 2": 75,
-    "Cell 3": 80,
-    "Cell 4": 90  
+  "Voltage Data": [
+    {
+      "BatteryID": 1 ,
+      "Total Voltage": 14.8,
+      "Cell 1": 3.7,
+      "Cell 2": 3.7,
+      "Cell 3": 3.7,
+      "Cell 4": 3.7
+    },
+    {
+      "BatteryID": 2 ,
+      "Total Voltage": 14.8,
+      "Cell 1": 3.7,
+      "Cell 2": 3.7,
+      "Cell 3": 3.7,
+      "Cell 4": 3.7
+    },
+    {"BatteryID": 3 ,
+      "Total Voltage": 14.8,
+      "Cell 1": 3.7,
+      "Cell 2": 3.7,
+      "Cell 3": 3.7,
+      "Cell 4": 3.7 },
+    {
+  "BatteryID": 4 ,
+      "Total Voltage": 14.8,
+      "Cell 1": 3.7,
+      "Cell 2": 3.7,
+      "Cell 3": 3.7,
+      "Cell 4": 3.7
+    },
+    {  
+  "BatteryID": 5 ,
+      "Total Voltage": 15.2,
+      "Cell 1": 3.8,
+      "Cell 2": 3.8,
+      "Cell 3": 3.8,
+      "Cell 4": 3.8  
+    },
+    {  
+  "BatteryID": 6 ,
+      "Total Voltage": 14.8,
+      "Cell 1": 3.7,
+      "Cell 2": 3.7,
+      "Cell 3": 3.7,
+      "Cell 4": 3.7  
+    },
+    {  
+  "BatteryID": 7 ,
+      "Total Voltage": 14.8,
+      "Cell 1": 3.7,
+      "Cell 2": 3.7,
+      "Cell 3": 3.7,
+      "Cell 4": 3.7  
+    },
+    {  
+  "BatteryID": 8 ,
+      "Total Voltage": 0,
+      "Cell 1": 0,
+      "Cell 2": 0,
+      "Cell 3": 0,
+      "Cell 4": 0  
+    }
+  ]
   }
-]
-}
-
+  
+  

@@ -25,7 +25,7 @@ try:
                 print("received") #print after receive
 
                 sensor_data = []                
-                for x in range(30000):
+                for x in range(10):
                         sensor_data.append(json.dumps(sample))
 
                 #Send total indexes of data
