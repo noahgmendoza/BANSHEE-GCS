@@ -163,10 +163,15 @@ f_ops.readUserData(profilePath);
       }
     });
     
-    // GET endpoint to retrieve the list of filenames
-    app.get('/sensor_data/files', (req, res) => {
+// GET endpoint to retrieve the list of filenames
+app.get('/sensor_data/files', async (req, res) => {
+  try {
       res.status(200).json({ filenames: uploadedFileNames });
-    });
+  } catch (error) {
+      console.error('Error retrieving file names:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
     
     // Start the Express server
     app.listen(port, () => {
