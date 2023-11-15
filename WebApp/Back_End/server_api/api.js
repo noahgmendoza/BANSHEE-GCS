@@ -8,7 +8,7 @@ const cors = require('cors');
 const f_ops = require('file_ops')
 
 const app = express();
-const port = 6000;
+const port = 3000;
 
 const dataFilePath = path.join(__dirname, 'sensor_data/sample_data.json'); // Update with your JSON file path
 const profilePath = path.join(__dirname, 'profiles/login.json'); // Update with your JSON file path

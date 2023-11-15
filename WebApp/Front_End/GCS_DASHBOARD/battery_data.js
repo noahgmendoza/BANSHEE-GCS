@@ -1,4 +1,4 @@
-fetch("http://149.28.81.138:6000/app/voltage")
+fetch("http://149.28.81.138:3000/app/voltage")
     .then((bdata) =>{
         //console.log(data);  
         return bdata.json(); //convert to object

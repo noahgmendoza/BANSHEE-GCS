@@ -1,1 +1,3 @@
-GET http://149.28.81.138:80/sensor_data/files
+GET http://149.28.81.138:6000/app/sensor_data/files
+
+GET http://149.28.81.138:6000/app/voltage
