@@ -14,8 +14,13 @@ const dataFilePath = path.join(__dirname, 'sensor_data/sample_data.json'); // Up
 const profilePath = path.join(__dirname, 'profiles/login.json'); // Update with your JSON file path
 //const database = path.join(__dirname, 'sensor_data'); //data directory 
 
-//Enable CORS for all routes
-app.use(cors());
+// Enable CORS for all routes with specific options
+app.use(cors({
+  origin: '*',  // Replace '*' with the actual origin of your frontend (e.g., 'http://yourfrontenddomain.com')
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true,
+  optionsSuccessStatus: 204,
+}));
 
 // Middleware to parse JSON requests
 app.use(express.json());
