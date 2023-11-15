@@ -1,4 +1,4 @@
-fetch("http://149.28.81.138:80/api/data")
+fetch("http://149.28.81.138:6000/app/data")
     .then((fdata) =>{
         //console.log(data);  
         return fdata.json(); //convert to object
