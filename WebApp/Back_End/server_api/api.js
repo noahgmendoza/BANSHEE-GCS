@@ -32,7 +32,7 @@ f_ops.readUserData(profilePath);
   
   
   // Define a GET route to read and return data from the JSON file
-  app.get('/api/data', async (req, res) => {
+  app.get('/app/data', async (req, res) => {
     try {
         const data = await fs.readFile(dataFilePath, 'utf-8');
         res.setHeader('Content-Type', 'application/json');
@@ -44,7 +44,7 @@ f_ops.readUserData(profilePath);
     });
 
   // Define a GET route to read and return data from the JSON file
-  app.get('/api/voltage', async (req, res) => {
+  app.get('/app/voltage', async (req, res) => {
     try {
         const data = await fs.readFile('voltage.json', 'utf-8');
         res.setHeader('Content-Type', 'application/json');
@@ -54,7 +54,7 @@ f_ops.readUserData(profilePath);
         res.status(500).json({ error: 'Internal Server Error' });
       }
     });
-    app.get('/api/simple_voltage', async (req, res) => {
+    app.get('/app/simple_voltage', async (req, res) => {
       try {
           const data = await fs.readFile('simple_voltage.json', 'utf-8');
           res.setHeader('Content-Type', 'application/json');
@@ -65,11 +65,11 @@ f_ops.readUserData(profilePath);
         }
       });
     
-    app.get('/users', (req, res) => {
+    app.get('/app/users', (req, res) => {
         res.json(users)
       })
     
-    app.post('/users', async (req, res) => {
+    app.post('/app/users', async (req, res) => {
         try {
           const hashedPassword = await bcrypt.hash(req.body.password, 10)
           const user = { name: req.body.name, password: hashedPassword }
@@ -83,7 +83,7 @@ f_ops.readUserData(profilePath);
         }
       })
       
-      app.post('/users/login', async (req, res) => {
+      app.post('/app/users/login', async (req, res) => {
         const user = users.find(user => user.name === req.body.name)
         if (user == null) {
           return res.status(400).send('Cannot find user')
@@ -99,7 +99,7 @@ f_ops.readUserData(profilePath);
         }
       })
     
-      app.post('/users/remove', async (req, res) => {
+      app.post('/app/users/remove', async (req, res) => {
         try{
           users = users.filter(item => item.name !== req.body.name);
           await f_ops.writeUserData();
@@ -110,7 +110,7 @@ f_ops.readUserData(profilePath);
       })
     
     // POST endpoint to handle the JSON payload with custom file path
-    app.post('/sensor_data/upload', async (req, res) => {
+    app.post('/app/sensor_data/upload', async (req, res) => {
       try {
         // Access the JSON data sent in the request body
         const requestData = req.body;
@@ -150,7 +150,7 @@ f_ops.readUserData(profilePath);
     });
     
 // GET endpoint to retrieve the list of filenames
-app.get('/sensor_data/files', async (req, res) => {
+app.get('/app/sensor_data/files', async (req, res) => {
   try {
       res.status(200).json({ filenames: uploadedFileNames });
   } catch (error) {
