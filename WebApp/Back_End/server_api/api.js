@@ -16,7 +16,7 @@ const profilePath = path.join(__dirname, 'profiles/login.json'); // Update with 
 
 // Enable CORS for all routes with specific options
 app.use(cors({
-  origin: '*',  // Replace '*' with the actual origin of your frontend (e.g., 'http://yourfrontenddomain.com')
+  origin: 'rgs.bansheeuav.tech',  // Replace '*' with the actual origin of your frontend (e.g., 'http://yourfrontenddomain.com')
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true,
   optionsSuccessStatus: 204,
