@@ -7,7 +7,7 @@ const dashList = [
         name: "flight_btn",
         iconid: "flight_icon",
         description:
-            "Most recent Drone Flight Data collected.",
+            "Drone Flight Data collected by month.",
     },
 
     {
