@@ -6,8 +6,8 @@ import requests
 import sys
 
 # Server configuration
-HOST = '192.168.1.61'
-PORT = 7777
+HOST = 'Insert IP'
+PORT = Insert Port
 
 # Create a socket
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
