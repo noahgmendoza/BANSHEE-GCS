@@ -8,10 +8,8 @@ import sys
 import time
 
 # Server configuration
-# HOST = '192.168.1.94'
-# PORT = 7777
-HOST = '149.28.81.138'
-PORT = 6000
+HOST = '<Insert IP>'
+PORT = <Insert PORT>
 
 #Pin definitions:
 interruptPin = 16 #Board pin 36
