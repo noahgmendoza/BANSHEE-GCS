@@ -13,8 +13,8 @@ landing_flag = 0
 
 
 def data_transfer(): 
-    HOST = '192.168.1.94' #GCS server IP
-    PORT = 7777 
+    HOST = 'Insert IP' #GCS server IP
+    PORT = Insert PORT
     socket_num = (HOST, PORT) #IP + Port
     
     client_socket  =  socket.socket(socket.AF_INET,socket.SOCK_STREAM) #creating a socket
