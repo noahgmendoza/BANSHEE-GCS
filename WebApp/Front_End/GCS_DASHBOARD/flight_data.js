@@ -1,4 +1,4 @@
-fetch("http://149.28.81.138:3000/app/data")
+fetch("http://Input socket/app/data")
     .then((fdata) =>{
         //console.log(data);  
         return fdata.json(); //convert to object
