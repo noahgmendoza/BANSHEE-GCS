@@ -7,8 +7,8 @@ import sys
 import time
 
 # Server configuration
-HOST = '149.28.81.138'
-PORT = 80
+HOST = '<Insert IP>'
+PORT = Insert PORT
 
 # Create a socket
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -159,7 +159,7 @@ def main():
             #Sensor upload
             # print("Sensor Data upload")
             # try:
-            #     requests.post("http://149.28.81.138:3000/sensor_data/upload", json = data_collect)
+            #     requests.post("http://Insert Socket/sensor_data/upload", json = data_collect)
             # except Exception as e:
             #     print(f"Error found:  {e}")
                 
