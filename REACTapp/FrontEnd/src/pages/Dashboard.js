@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react'
 import '../styles/Dashboard.css';
-import background2 from '../assets/background2.jpg';
+// import background2 from '../assets/background2.jpg';
 
 const data = [
   { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
@@ -16,6 +16,13 @@ const data = [
 ]
 
 function Dashboard() {
+
+  const [showDropdown, setDropdown] = useState(false);
+
+  const toggleDropdown = () => {
+    setDropdown(!showDropdown);
+  };
+
   return (
     <div className='container'>
       <div className='heading'>GROUND CONTROL STATION DASHBOARD</div>
@@ -24,27 +31,26 @@ function Dashboard() {
           <div className='flightdata'>
             <div className='flightdata-header'>
               <div className='card-title'>Flight Data</div>
-              <div class="dropdownstuff">
-                <div class="dropdown">
-                    <div class="select">
-                        <span class="selected">November</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" fill='white' height="24" viewBox="0 -960 960 960" width="24"><path d="M480-360 280-560h400L480-360Z"/></svg>
-                    </div>
-                    <ul class="menu">
-                        <li>January</li>
-                        <li>February</li>
-                        <li>March</li>
-                        <li>April</li>
-                        <li>May</li>
-                        <li>June</li>
-                        <li>July</li>
-                        <li>August</li>
-                        <li>September</li>
-                        <li>October</li>
-                        <li class="active">November</li>
-                        <li>December</li>
-                    </ul>
+
+              <div class="dropdownstuff" onClick={toggleDropdown}>
+                <div class="select">
+                    <span class="selected">February</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill='white' height="24" viewBox="0 -960 960 960" width="24"><path d="M480-360 280-560h400L480-360Z"/></svg>
                 </div>
+                <ul class="menu" id={showDropdown ? "show" : "hide"}>
+                    <li onClick={toggleDropdown}>January</li>
+                    <li class="active" onClick={toggleDropdown}>February</li>
+                    <li onClick={toggleDropdown}>March</li>
+                    <li onClick={toggleDropdown}>April</li>
+                    <li onClick={toggleDropdown}>May</li>
+                    <li onClick={toggleDropdown}>June</li>
+                    <li onClick={toggleDropdown}>July</li>
+                    <li onClick={toggleDropdown}>August</li>
+                    <li onClick={toggleDropdown}>September</li>
+                    <li onClick={toggleDropdown}>October</li>
+                    <li onClick={toggleDropdown}>November</li>
+                    <li onClick={toggleDropdown}>December</li>
+                </ul>
               </div>
             </div>
             <table>
