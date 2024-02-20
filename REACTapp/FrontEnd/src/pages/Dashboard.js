@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import '../styles/Dashboard.css';
-// import background2 from '../assets/background2.jpg';
+import SpiritGauge from '../assets/spirit.png';
+import BrainPowerGauge from '../assets/brainpower_percentage.png';
+import MotivationGauge from '../assets/motivation.png';
 
 const data = [
   { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
@@ -31,7 +33,6 @@ function Dashboard() {
           <div className='flightdata'>
             <div className='flightdata-header'>
               <div className='card-title'>Flight Data</div>
-
               <div class="dropdownstuff" onClick={toggleDropdown}>
                 <div class="select">
                     <span class="selected">February</span>
@@ -78,12 +79,21 @@ function Dashboard() {
                   })}
             </table>
           </div>
-          <div className='something1'>something</div>
+          <div className='battery'>battery stuff</div>
         </div>
         <div className='right-side'>
-          <div className='battery'>battery box</div>
-          <div className='something2'>something else</div>
-          <div className='something3'>something else</div>
+          <div className='spirit'>
+            <div className='spirit-header' id='header'>Team Spirit</div>
+            <img className='spirit-gauge' id='gauge' src={SpiritGauge} alt="spirit" />
+          </div>
+          <div className='brain-power'>
+            <div className='brainpower-header' id='header'>Team Brain Power</div>
+            <img className='spirit-gauge' id='gauge' src={BrainPowerGauge} alt="spirit" />
+          </div>
+          <div className='motivation'>
+            <div className='motivation-header' id='header'>Team Motivation</div>
+            <img className='spirit-gauge' id='gauge' src={MotivationGauge} alt="spirit" />
+          </div>
         </div>
       </div>
     </div>

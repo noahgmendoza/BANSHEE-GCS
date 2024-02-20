@@ -66,7 +66,7 @@ td {
     height: 100vh;
     flex-direction: column;
     align-items: center;
-    width: 25vh;
+    width: 30vh;
     gap: 30px;
 }
 
@@ -82,7 +82,7 @@ td {
     min-height: 50px;
     background: rgb(39, 43, 52);
     width: 100%;
-    height: 180px;
+    height: 225px;
     border-radius: 15px;
 }
 
@@ -100,9 +100,9 @@ td {
     
 }
 
-.something1 {
+.battery {
     width: 100%;
-    height: 120px;
+    height: 256px;
 }
 
 .flightdata-header {
@@ -113,6 +113,42 @@ td {
     flex-direction: row;
     align-items: center;
     padding-top: 10px;
+}
+
+.right-side #header {
+    height: 20px;
+    margin-left: 45px;
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+    color: rgb(214, 214, 214);
+}
+
+.right-side #gauge {
+    width: 80%;
+    height: 70%;
+    object-fit: fill;
+}
+
+.spirit {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.brain-power {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.motivation {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .card-title {
