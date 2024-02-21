@@ -83,15 +83,15 @@ function Dashboard() {
         </div>
         <div className='right-side'>
           <div className='spirit'>
-            <div className='spirit-header' id='header'>Team Spirit</div>
+            <h1 className='spirit-header' id='header'>Team Spirit</h1>
             <img className='spirit-gauge' id='gauge' src={SpiritGauge} alt="spirit" />
           </div>
           <div className='brain-power'>
-            <div className='brainpower-header' id='header'>Team Brain Power</div>
+            <h1 className='brainpower-header' id='header'>Team Brain Power</h1>
             <img className='spirit-gauge' id='gauge' src={BrainPowerGauge} alt="spirit" />
           </div>
           <div className='motivation'>
-            <div className='motivation-header' id='header'>Team Motivation</div>
+            <h1 className='motivation-header' id='header'>Team Motivation</h1>
             <img className='spirit-gauge' id='gauge' src={MotivationGauge} alt="spirit" />
           </div>
         </div>

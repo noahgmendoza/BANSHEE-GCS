@@ -117,17 +117,18 @@ td {
 
 .right-side #header {
     height: 20px;
-    margin-left: 45px;
+    /* margin-left: 5px; */
     display: flex;
-    align-items: center;
+    /* align-items: left; */
     font-weight: 600;
     color: rgb(214, 214, 214);
+    font-size: 16px;
 }
 
 .right-side #gauge {
-    width: 80%;
+    width: 70%;
     height: 70%;
-    object-fit: fill;
+    object-fit: cover;
 }
 
 .spirit {
@@ -135,6 +136,7 @@ td {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    gap: 15px
 }
 
 .brain-power {
@@ -142,6 +144,7 @@ td {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    gap: 15px
 }
 
 .motivation {
@@ -149,6 +152,7 @@ td {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    gap: 15px
 }
 
 .card-title {
