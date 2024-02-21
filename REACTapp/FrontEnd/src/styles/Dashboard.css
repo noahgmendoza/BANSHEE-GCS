@@ -215,11 +215,11 @@ td {
     /* opacity: 0; */
     display: block;
     transition: 0.2s;
-    position:absolute;
+    position:fixed;
     padding-left: 0.5em;
     padding-right: 0.5em;
     z-index: 10;
-    top: 25%;
+    top: 240px;
 }
 
 .dropdownstuff #hide {
