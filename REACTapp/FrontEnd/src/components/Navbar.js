@@ -21,7 +21,7 @@ function Navbar() {
             <svg xmlns="http://www.w3.org/2000/svg" fill='white' height="38" viewBox="0 -960 960 960" width="24"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
           </button>
           <li className='nav-item' onClick={toggleNavbar}>
-            <Link to='/home' className='nav-links'>
+            <Link to='/' className='nav-links'>
               Home</Link>
           </li>
           <li className='nav-item' onClick={toggleNavbar}>
@@ -39,11 +39,11 @@ function Navbar() {
         </ul>
         <ul className='navbarul'>
           <li className='nav-item-logo'>
-            <Link to='/home' className='nav-logo'>
+            <Link to='/' className='nav-logo'>
               GCS<img src={ Logo } alt=''></img></Link>
           </li>
           <li className='hideOnMobile'>
-            <Link to='/home' className='nav-links'>
+            <Link to='/' className='nav-links'>
               Home</Link>
           </li>
           <li className='hideOnMobile'>
