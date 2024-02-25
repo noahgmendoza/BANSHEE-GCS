@@ -1,0 +1,21 @@
+{
+  "files": {
+    "main.css": "./static/css/main.ed9d7c46.css",
+    "main.js": "./static/js/main.a926a7a9.js",
+    "static/js/592.585a65e7.chunk.js": "./static/js/592.585a65e7.chunk.js",
+    "static/media/banshee_logo.png": "./static/media/banshee_logo.82df5e4bc349f06633b7.png",
+    "static/media/background_home.jpg": "./static/media/background_home.6827575b1a4ab3982c84.jpg",
+    "static/media/motivation.png": "./static/media/motivation.d5f36a56bcdc53703e2e.png",
+    "static/media/spirit.png": "./static/media/spirit.743e1e1533c8998d3f01.png",
+    "static/media/brainpower_percentage.png": "./static/media/brainpower_percentage.6b828186ca9fac2bd60e.png",
+    "static/media/background.jpg": "./static/media/background.6c568ddd4f0d5d783ec9.jpg",
+    "index.html": "./index.html",
+    "main.ed9d7c46.css.map": "./static/css/main.ed9d7c46.css.map",
+    "main.a926a7a9.js.map": "./static/js/main.a926a7a9.js.map",
+    "592.585a65e7.chunk.js.map": "./static/js/592.585a65e7.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.ed9d7c46.css",
+    "static/js/main.a926a7a9.js"
+  ]
+}
