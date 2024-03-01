@@ -1,32 +1,239 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import '../styles/Dashboard.css';
 import SpiritGauge from '../assets/spirit.png';
 import BrainPowerGauge from '../assets/brainpower_percentage.png';
 import MotivationGauge from '../assets/motivation.png';
+import Select from 'react-select'
+import battery25 from '../assets/battery25.png';
+import battery50 from '../assets/battery50.png';
+import battery75 from '../assets/battery75.png';
+import batteryfull from '../assets/batteryfull.png';
 
-const flightdata = [
-  { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
-  { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
-  { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
-  { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
-  { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
-  { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
-  { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
-  { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
-  { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
-  { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
-]
+const dates = [
+  { value: "jan", label: "January"},
+  { value: "feb", label: "February"},
+  { value: "mar", label: "March"},
+  { value: "apr", label: "April"},
+  { value: "may", label: "May"},
+  { value: "jun", label: "June"},
+  { value: "jul", label: "July"},
+  { value: "aug", label: "August"},
+  { value: "sep", label: "September"},
+  { value: "oct", label: "October"},
+  { value: "nov", label: "November"},
+  { value: "dec", label: "December"},
+];
 
-const batterydata = [
-  { chamber1: "14.8V", chamber2: "14.8V", chamber3: "14.8V", chamber4: "14.8V", chamber5: "15.2V", chamber6: "14.8V", chamber7: "14.8V", chamber8: "0V" }
-]
+const flightDataByDate = {
+  jan: [
+    { mavpackettype: "JANUARY", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    ],
+  feb: [
+    { mavpackettype: "FEBRUARY", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    ],
+  mar: [
+    { mavpackettype: "MARCH", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    ],
+  apr: [
+    { mavpackettype: "APRIL", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    ],
+  may: [
+    { mavpackettype: "MAY", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    ],
+  jun: [
+    { mavpackettype: "JUNE", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    ],
+  jul: [
+    { mavpackettype: "JULY", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    ],
+  aug: [
+    { mavpackettype: "AUGUST", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    ],
+  sep: [
+    { mavpackettype: "SEPTEMBER", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    ],
+  oct: [
+    { mavpackettype: "OCTOBER", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    ],
+  nov: [
+    { mavpackettype: "NOVEMBER", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    ],
+  dec: [
+    { mavpackettype: "DECEMBER", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    { mavpackettype: "HEARTBEAT", type: "4", autopilot: "7", base_mode: "5", custom_mode: "0", system_status: "3", mavlink_version: "3" },
+    ],
+};
+
+const batterychambers = [
+  { value: "c1", label: "Chamber 1"},
+  { value: "c2", label: "Chamber 2"},
+  { value: "c3", label: "Chamber 3"},
+  { value: "c4", label: "Chamber 4"},
+  { value: "c5", label: "Chamber 5"},
+  { value: "c6", label: "Chamber 6"},
+  { value: "c7", label: "Chamber 7"},
+  { value: "c8", label: "Chamber 8"}
+];
+
+const chamberData = {
+  c1: [{ chambernumber: "1", voltage: "14.8", cell1: "3.7", cell2: "3.7", cell3: "3.7", cell4: "3.7" }],
+  c2: [{ chambernumber: "2", voltage: "11.3", cell1: "3.7", cell2: "2.5", cell3: "3.7", cell4: "1.4" }],
+  c3: [{ chambernumber: "3", voltage: "4.5", cell1: "0", cell2: "0.5", cell3: "2.8", cell4: "1.2" }],
+  c4: [{ chambernumber: "4", voltage: "14.8", cell1: "3.7", cell2: "3.7", cell3: "3.7", cell4: "3.7" }],
+  c5: [{ chambernumber: "5", voltage: "15.2", cell1: "3.8", cell2: "3.8", cell3: "3.8", cell4: "3.8" }],
+  c6: [{ chambernumber: "6", voltage: "14.8", cell1: "3.7", cell2: "3.7", cell3: "3.7", cell4: "3.7" }],
+  c7: [{ chambernumber: "7", voltage: "14.8", cell1: "3.7", cell2: "3.7", cell3: "3.7", cell4: "3.7" }],
+  c8: [{ chambernumber: "8", voltage: "0", cell1: "0", cell2: "0", cell3: "0", cell4: "0" }]
+};
+
+const batteryImages = {
+  '20%': battery25,
+  '50%': battery50,
+  '75%': battery75,
+  '100%': batteryfull,
+};
+
+
+function getBatteryImage(voltage, maxVoltage) {
+  const percentage = (voltage / maxVoltage) * 100;
+
+  if (percentage <= 20) {
+    return batteryImages['20%']; // Use the actual image file
+  } else if (percentage <= 50) {
+    return batteryImages['50%'];
+  } else if (percentage <= 75) {
+    return batteryImages['75%'];
+  } else {
+    return batteryImages['100%'];
+  }
+}
 
 function Dashboard() {
 
-  const [showDropdown, setDropdown] = useState(false);
+  const currentMonth = new Date().toLocaleString('en-US', { month: 'short' }).toLowerCase();
+  const [selectedDate, setSelectedDate] = useState(currentMonth);
 
-  const toggleDropdown = () => {
-    setDropdown(!showDropdown);
+  useEffect(() => {
+    // You can fetch or update data here based on the selected date
+    console.log("Fetching data for month:", selectedDate);
+  }, [selectedDate]);
+
+
+  const dateChange = (selectedOption) => {
+    setSelectedDate(selectedOption.value);
+  };
+
+  const [selectedChamber, setSelectedChamber] = useState(batterychambers[0].value);
+
+  const chamberChange = (selectedOption) => {
+    setSelectedChamber(selectedOption.value);
   };
 
   return (
@@ -37,26 +244,7 @@ function Dashboard() {
           <div className='flightdata'>
             <div className='flightdata-header'>
               <div className='card-title'>Flight Data</div>
-              <div class="dropdownstuff" onClick={toggleDropdown}>
-                <div class="select">
-                    <span class="selected">February</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill='white' height="24" viewBox="0 -960 960 960" width="24"><path d="M480-360 280-560h400L480-360Z"/></svg>
-                </div>
-                <ul class="menu" id={showDropdown ? "show" : "hide"}>
-                    <li onClick={toggleDropdown}>January</li>
-                    <li class="active" onClick={toggleDropdown}>February</li>
-                    <li onClick={toggleDropdown}>March</li>
-                    <li onClick={toggleDropdown}>April</li>
-                    <li onClick={toggleDropdown}>May</li>
-                    <li onClick={toggleDropdown}>June</li>
-                    <li onClick={toggleDropdown}>July</li>
-                    <li onClick={toggleDropdown}>August</li>
-                    <li onClick={toggleDropdown}>September</li>
-                    <li onClick={toggleDropdown}>October</li>
-                    <li onClick={toggleDropdown}>November</li>
-                    <li onClick={toggleDropdown}>December</li>
-                </ul>
-              </div>
+              <Select options={dates} onChange={dateChange} value={dates.find(date => date.value === selectedDate)} />
             </div>
             <table>
                   <tr>
@@ -68,7 +256,7 @@ function Dashboard() {
                       <th>system_status</th>
                       <th>mavlink_version</th>
                   </tr>
-                  {flightdata.map((val, key) => {
+                  {flightDataByDate[selectedDate].map((val, key) => {
                       return (
                           <tr key={key}>
                               <td>{val.mavpackettype}</td>
@@ -84,29 +272,28 @@ function Dashboard() {
             </table>
           </div>
           <div className='battery'>
-            <div className='battery-header'>Battery Voltages</div>
+            <div className='battery-header'>
+              <div className='card-title'>Battery Voltages</div>
+              <Select options={batterychambers} onChange={chamberChange} value={batterychambers.find(chamber => chamber.value === selectedChamber)} />
+            </div>
             <table>
                   <tr>
-                      <th>Chamber 1</th>
-                      <th>Chamber 2</th>
-                      <th>Chamber 3</th>
-                      <th>Chamber 4</th>
-                      <th>Chamber 5</th>
-                      <th>Chamber 6</th>
-                      <th>Chamber 7</th>
-                      <th>Chamber 8</th>
+                      <th>Chamber</th>
+                      <th>Voltage</th>
+                      <th>Cell 1</th>
+                      <th>Cell 2</th>
+                      <th>Cell 3</th>
+                      <th>Cell 4</th>
                   </tr>
-                  {batterydata.map((val, key) => {
+                  {chamberData[selectedChamber].map((val, key) => {
                       return (
                           <tr key={key}>
-                              <td>{val.chamber1}</td>
-                              <td>{val.chamber2}</td>
-                              <td>{val.chamber3}</td>
-                              <td>{val.chamber4}</td>
-                              <td>{val.chamber5}</td>
-                              <td>{val.chamber6}</td>
-                              <td>{val.chamber7}</td>
-                              <td>{val.chamber8}</td>
+                              <td>{val.chambernumber}</td>
+                              <td style={{ backgroundImage: `url(${getBatteryImage(parseFloat(val.voltage), 16)})`}}>{val.voltage}</td>
+                              <td style={{ backgroundImage: `url(${getBatteryImage(parseFloat(val.cell1), 4)})`}}>{val.cell1}</td>
+                              <td style={{ backgroundImage: `url(${getBatteryImage(parseFloat(val.cell2), 4)})`}}>{val.cell2}</td>
+                              <td style={{ backgroundImage: `url(${getBatteryImage(parseFloat(val.cell3), 4)})`}}>{val.cell3}</td>
+                              <td style={{ backgroundImage: `url(${getBatteryImage(parseFloat(val.cell4), 4)})`}}>{val.cell4}</td>
                           </tr>
                       )
                   })}
