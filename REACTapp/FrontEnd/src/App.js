@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import './styles/App.css';
 import './styles/index.css';
 import LoginForm from './pages/loginform';
@@ -5,19 +6,40 @@ import Home from './pages/Home';
 import Dashboard from './pages/Dashboard';
 import About from './pages/About';
 import Navbar from "./components/Navbar";
-import { HashRouter as Router, Route, Routes } from "react-router-dom";
+import { HashRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 
 function App() {
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const handleLogin = () => {
+    // Add your login logic here
+    setIsLoggedIn(true);
+  };
+
+  const handleLogout = () => {
+    // Add your logout logic here
+    setIsLoggedIn(false);
+  };
+
   return (
     <div className="App">
       <div>
         <Router>
-          <Navbar />
+          <Navbar isLoggedIn={isLoggedIn} onLogout={handleLogout} />
           <Routes>
-            <Route path="/" exact element={<Home/>} />
-            <Route path="/dashboard" exact element={<Dashboard/>} />
-            <Route path="/about" exact element={<About/>} />
-            <Route path="/login" exact element={<LoginForm/>} />
+            <Route path="/" element={<Home />} />
+            <Route
+              path="/dashboard"
+              element={
+                isLoggedIn ? <Dashboard /> : <Navigate to="/login" />
+              }
+            />
+            <Route path="/about" element={<About />} />
+            <Route
+              path="/login"
+              element={<LoginForm onLogin={handleLogin} />}
+            />
           </Routes>
         </Router>
         

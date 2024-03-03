@@ -4,12 +4,16 @@ import { Link } from "react-router-dom";
 import '../styles/Navbar.css';
 
 
-function Navbar() {
+function Navbar({ isLoggedIn, onLogout }) {
 
   const [showSidebar, setSidebar] = useState(false);
 
   const toggleNavbar = () => {
     setSidebar(!showSidebar);
+  };
+
+  const handleLogout = () => {
+    onLogout();
   };
 
   return (
@@ -33,8 +37,15 @@ function Navbar() {
               About</Link>
           </li>
           <li className='nav-item' onClick={toggleNavbar}>
-            <Link to='/login' className='nav-links'>
-              Logout</Link>
+              {isLoggedIn ? (
+                <Link to='/login' className='nav-links' onClick={handleLogout}>
+                  Logout
+                </Link>
+              ) : (
+                <Link to='/login' className='nav-links'>
+                  Login
+                </Link>
+              )}
           </li>
         </ul>
         <ul className='navbarul'>
@@ -55,8 +66,15 @@ function Navbar() {
               About</Link>
           </li>
           <li className='hideOnMobile'>
-            <Link to='/login' className='nav-links'>
-              Logout</Link>
+              {isLoggedIn ? (
+                <Link to='/login' className='nav-links' onClick={handleLogout}>
+                  Logout
+                </Link>
+              ) : (
+                <Link to='/login' className='nav-links'>
+                  Login
+                </Link>
+              )}
           </li>
           <button className='menu-icon' onClick={toggleNavbar}>
             <svg xmlns="http://www.w3.org/2000/svg" fill='white' height="24" viewBox="0 -960 960 960" width="24"><path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"/></svg>

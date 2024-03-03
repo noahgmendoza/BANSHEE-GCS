@@ -12,7 +12,7 @@ function Home() {
       <div className='top'>
         <h1>Robotic Ground System Hub</h1>
         <pre>
-          {'Welcome to the RGS Hub!\nAll drone data is organized and\naccessible through this webpage!\nCheck out our Dashboard!'}
+          {'Welcome to the RGS Hub!\nAll drone data is organized and\naccessible through this webpage!\nCheck out our Dashboard or\nscroll down to learn more!'}
         </pre>
         <Link to="/dashboard">
           <button> Dashboard </button>

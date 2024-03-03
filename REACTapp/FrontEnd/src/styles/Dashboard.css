@@ -203,36 +203,32 @@ td {
 }
 
 
+@media(max-width: 500px) {
 
-/*
-.card-wrapper {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    max-width: 650px;
-    min-height: 600px;
-    justify-content: center;
+    .flightdata-header {
+        position: sticky;
+        left: 0px;
+    }
+
+    .flightdata {
+        overflow-x: auto;
+        align-items: normal;
+    }
+
+    .battery {
+        overflow-x: auto;
+        align-items: normal;
+    }
+
+    .left-side {
+        height: auto;
+    }
+
+    .card-wrapper {
+        display: flex;
+        flex-direction: column;
+        padding-left: 40px;
+        padding-right: 40px;
+        gap: 20px;
+    }
 }
-
-.card {
-    background: linear-gradient(#e66465, #9198e5);
-    min-width: 150px;
-    max-height: 150px;
-    text-align: center;
-    vertical-align: middle;
-    border: black;
-    border-radius: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.card-wrapper :first-child {
-    min-width: 300px;
-    min-height: 300px;
-}
-
-.card-wrapper :nth-child(2) {
-    min-width: 300px;
-    min-height: 300px;
-} */
