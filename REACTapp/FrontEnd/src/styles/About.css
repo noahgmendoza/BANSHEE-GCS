@@ -28,12 +28,12 @@
 }
 
 @media(max-width: 500px) {
-    .about-container {
-        width: auto;
+    /* .about-container {
+        width: 100%;
     }
 
     .about-body {
         width: 100%;
         margin: 0px;
-    }
+    } */
 }

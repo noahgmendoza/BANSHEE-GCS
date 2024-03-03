@@ -9,9 +9,9 @@ function About() {
       </div>
       <div className='about-body'>
         <b>Who are we?</b>
-        <pre>
+        <p>
           {'We are the Robotic Ground System Team of graduate and undergraduate students who are dedicated to the BANSHEEUAV Project.\n\n'}
-        </pre>
+        </p>
         <b>Where are we?</b>
         <pre>
           {'Cal Poly Pomona\n\n'}

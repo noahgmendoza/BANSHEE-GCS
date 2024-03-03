@@ -205,19 +205,31 @@ td {
 
 @media(max-width: 500px) {
 
+    .heading {
+        padding-left: 10%;
+    }
+
     .flightdata-header {
         position: sticky;
         left: 0px;
+        z-index: 10;
     }
 
     .flightdata {
-        overflow-x: auto;
+        overflow-x: scroll;
         align-items: normal;
     }
 
     .battery {
-        overflow-x: auto;
+        overflow-x: scroll;
         align-items: normal;
+        height: 280px;
+    }
+
+    .battery-header {
+        position: sticky;
+        left: 0px;
+        z-index: 10;
     }
 
     .left-side {
