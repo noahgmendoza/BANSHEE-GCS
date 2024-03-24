@@ -23,8 +23,8 @@ mongoose.connect(uri)
   .then(() => console.log("Mongodb connected successfully"))
   .catch(err => console.log(err));
 
-app.use('/api/users', userRoutes);
-app.use('/api/rgs', rgsRoutes);
+app.use('/app/users', userRoutes);
+app.use('/app/rgs', rgsRoutes);
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
