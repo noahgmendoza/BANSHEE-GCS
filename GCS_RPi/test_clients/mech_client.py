@@ -1,30 +1,41 @@
 import socket
 import time
-import sys
-# Server configuration
-HOST = '149.28.81.138'
-PORT = 80
-client_socket  =  socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-server_address  = (HOST,PORT)
-client_socket.connect(server_address)
 
+def mech_client():
+    # Connect to the server
+    server_address = ('localhost', 3300)  # Adjust the IP address and port if necessary
+    client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    client_socket.connect(server_address)
 
-print("Connected to server")
-client_socket.send("Mech".encode('utf-8'))
+    try:
+        # Receive confirmation from the server
+        data = client_socket.recv(1024)
+        print("Received:", data.decode())
 
-try:
-    while True:
-        #Wait for battery swap request
-        serv_req = client_socket.recv(1024).decode('utf-8')
-        if serv_req == "Go":
-            print("Battery Swap")
-            time.sleep(5)
-            client_socket.send("Finished".encode('utf-8'))
-            print("Done")
-        else:
-            print("Error")
-            break
-finally:
-    client_socket.close()
-    print("Force quit")
+        if data.decode() == '0':
+            # Send notification to the server that mechanic is ready
+            client_socket.sendall(b'0')
 
+            # Wait for notification from the server to start the task
+            data = client_socket.recv(1024)
+            print("Received:", data.decode())
+
+            if data.decode() == 'G':
+                # Simulate mechanic task
+                print("Mech task is in progress...")
+                time.sleep(3)  # Simulate task duration
+
+                # Inform the server that the task is completed
+                client_socket.sendall(b'0')
+                print("Mech task completed")
+
+                # Wait for confirmation from the server
+                data = client_socket.recv(1024)
+                print("Received:", data.decode())
+
+    finally:
+        # Close the connection
+        client_socket.close()
+
+if __name__ == "__main__":
+    mech_client()
