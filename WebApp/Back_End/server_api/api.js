@@ -1,183 +1,295 @@
+const mongoose = require('mongoose');
+const user = require('./utils/userSchema');
+const rgs = require('./utils/rgsSchema');
+require('dotenv').config(); 
 const express = require('express');
-const fs = require('fs').promises; // Use fs.promises for async/await
+const fs = require('fs').promises;
 const path = require('path');
-const bcrypt = require('bcrypt')
-const bodyParser = require('body-parser');
-const { v4: uuidv4 } = require('uuid'); // Import UUID library for generating unique filenames
+const bcrypt = require('bcrypt');
 const cors = require('cors');
-const f_ops = require('file_ops')
+const jwt = require('jsonwebtoken');
 
+//Variables
+const uri = process.env.DATABASE_URI;
+const port = process.env.PORT || 3000;
+
+//Express middleware
 const app = express();
-const port = 3000;
+app.use(express.json());
 
-const dataFilePath = path.join(__dirname, 'sensor_data/sample_data.json'); // Update with your JSON file path
-const profilePath = path.join(__dirname, 'profiles/login.json'); // Update with your JSON file path
-//const database = path.join(__dirname, 'sensor_data'); //data directory 
-
-// Enable CORS for all routes with specific options
 app.use(cors({
-  origin: 'http://rgs.bansheeuav.tech',  
+  origin: 'http://rgs.bansheeuav.tech/',
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true,
   optionsSuccessStatus: 204,
 }));
 
-// Middleware to parse JSON requests
-app.use(express.json());
-// Middleware to parse JSON requests bodies
-app.use(bodyParser.json());
+mongoose.connect(uri)
+.then(()=>console.log("Mongodb connected successfully"))
+.catch((err)=>console.log(err));
 
-let users = [];
-
-// Array to store filenames
-const database = 'sensor_data'; // Set the correct path
-
-// Read initial user data when the server starts
-f_ops.readUserData(profilePath);
-  
-  
-  // Define a GET route to read and return data from the JSON file
-  app.get('/app/data', async (req, res) => {
-    try {
-        const data = await fs.readFile(dataFilePath, 'utf-8');
-        res.setHeader('Content-Type', 'application/json');
-        res.status(200).send(data);
-      } catch (err) {
-        console.error('Error:', err);
-        res.status(500).json({ error: 'Internal Server Error' });
-      }
-    });
-
-  // Define a GET route to read and return data from the JSON file
-  app.get('/app/voltage', async (req, res) => {
-    try {
-        const data = await fs.readFile('voltage.json', 'utf-8');
-        res.setHeader('Content-Type', 'application/json');
-        res.status(200).send(data);
-      } catch (err) {
-        console.error('Error:', err);
-        res.status(500).json({ error: 'Internal Server Error' });
-      }
-    });
-    app.get('/app/simple_voltage', async (req, res) => {
-      try {
-          const data = await fs.readFile('simple_voltage.json', 'utf-8');
-          res.setHeader('Content-Type', 'application/json');
-          res.status(200).send(data);
-        } catch (err) {
-          console.error('Error:', err);
-          res.status(500).json({ error: 'Internal Server Error' });
-        }
-      });
-    
-    app.get('/app/users', (req, res) => {
-        res.json(users)
-      })
-    
-    app.post('/app/users', async (req, res) => {
-        try {
-          const hashedPassword = await bcrypt.hash(req.body.password, 10)
-          const user = { name: req.body.name, password: hashedPassword }
-          // Write the updated 'users' array to the JSON file
-          users.push(user)
-          await writeUserData();
-          console.log("User added to array")
-          res.status(201).send()
-        } catch {
-          res.status(500).send()
-        }
-      })
-      
-      app.post('/app/users/login', async (req, res) => {
-        const user = users.find(user => user.name === req.body.name)
-        if (user == null) {
-          return res.status(400).send('Cannot find user')
-        }
-        try {
-          if(await bcrypt.compare(req.body.password, user.password)) {
-            res.send('Success')
-          } else {
-            res.send('Not Allowed')
-          }
-        } catch {
-          res.status(500).send()
-        }
-      })
-    
-      app.post('/app/users/remove', async (req, res) => {
-        try{
-          users = users.filter(item => item.name !== req.body.name);
-          await f_ops.writeUserData();
-          console.log('User removed: ' + req.body.name);
-        }catch{
-          res.status(500).send()
-        }
-      })
-    
-    // POST endpoint to handle the JSON payload with custom file path
-    app.post('/app/sensor_data/upload', async (req, res) => {
-      try {
-        // Access the JSON data sent in the request body
-        const requestData = req.body;
-
-        // Get the current date and time
-        const currentDate = new Date();
-        
-        // Extract the date components
-        const year = currentDate.getFullYear();
-        const month = f_ops.formatAsTwoDigitString(currentDate.getMonth() + 1); // Adding 1 because months are zero-based
-        const day = f_ops.formatAsTwoDigitString(currentDate.getDate());
-    
-        // Extract the time components
-        const hours = f_ops.formatAsTwoDigitString(currentDate.getHours());
-        const minutes = f_ops.formatAsTwoDigitString(currentDate.getMinutes());
-        const seconds = f_ops.formatAsTwoDigitString(currentDate.getSeconds());
-    
-        // Generate a filename based on date and time
-        const filename = `${year}-${month}-${day}_${hours}-${minutes}-${seconds}.json`;
-    
-        // Specify the full file path including the custom directory
-        const filePath = path.join(__dirname, '/sensor_data', filename);
-    
-        // Save the requestData to the specified file path using async/await
-        await fs.writeFile(filePath, JSON.stringify(requestData, null, 2), 'utf-8');
-        
-        // Add the filename to the array directly
-        uploadedFileNames.push(filename);
-        
-        // Send a success response
-        res.status(200).json({ message: 'Data received and saved successfully', filename: filePath });
-        console.log('Sensor data received: ' + filePath);
-      } catch (error) {
-        console.error('Sensor data upload error:', error);
-        res.status(500).json({ error: 'Internal server error' });
-      }
-    });
-    
-// GET endpoint to retrieve the list of filenames
-app.get('/app/sensor_data/files', async (req, res) => {
+//User signup
+app.post('/api/user/data', async (req, res) => {
   try {
-      res.status(200).json({ filenames: uploadedFileNames });
-  } catch (error) {
-      console.error('Error retrieving file names:', error);
-      res.status(500).json({ error: 'Internal Server Error' });
+      // Switch the database context to a different database named 'users'
+      const db = mongoose.connection.useDb('users');
+
+      // Initialize months array
+      const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+      // Initialize array to store mavlink data for all months
+      const mavlinkDataForAllMonths = [];
+
+      // Iterate over months and create entries for each month
+      months.forEach(month => {
+          mavlinkDataForAllMonths.push({
+              month: month,
+              data: [] // You can add more sample data here if needed
+          });
+      });
+
+      // Create a new user document
+      const newUser = new user({
+          username: req.body.username,
+          password: req.body.password,
+          email: req.body.email,
+          mavlink_data: mavlinkDataForAllMonths
+      });
+
+      // Save the new user to the database
+      const savedUser = await newUser.save();
+      console.log(savedUser); // Log the saved user object
+
+      // Send a response indicating successful user signup along with the user ID
+      res.send(`User signup received. ID: ${savedUser._id}`);
+  } catch (err) {
+      // If an error occurs, log the error
+      console.log(err);
+      res.status(500).send('Error occurred while processing your request.');
   }
 });
-    
-// Function to initialize uploadedFileNames
-async function initialize() {
+
+//Add RGS by location
+app.post('/api/rgs_details', async (req, res) =>{
+        try{
+            const newRGS = new rgs(req.body);
+            const db = mongoose.connection.useDb('system_details');
+            const savedRGS = await newRGS.save();
+            console.log(savedRGS);
+            res.send('New RGS added. ID:' + savedRGS._id);
+        }
+        catch(err){
+            console.log(err);
+        }
+    }
+)
+
+//Update voltages at RGS location
+app.put('/api/rgs/voltages', async (req, res) =>{
   try {
-      uploadedFileNames = await f_ops.populateFileNamesArray(database);
-      console.log('Uploaded file names:', uploadedFileNames);
+    const newVoltages = req.body.voltages;
+    const query = { location: req.body.location };
 
-      // Now that the filenames are populated, you can start the server
-      app.listen(port, () => {
-          console.log(`Server is listening on port ${port}`);
-      });
-  } catch (error) {
-      console.error('Error initializing file names:', error);
+    // Update the document with new voltages
+    const updatedRGS = await rgs.findOneAndUpdate(query, { $set: { voltages: newVoltages } }, {
+      new: true
+    });
+
+    if (updatedRGS) {
+      res.send('RGS data updated');
+    } else {
+      res.status(404).send('RGS data not found');
+    }
+  } catch(err) {
+    console.log(err);
+    res.status(500).send('Internal Server Error');
   }
-}
+});
 
-// Call the initialization function
-initialize();
+//Send voltages to client
+app.get('/api/rgs/voltages/:location', async (req, res) => {
+  try {
+    // Access location from route parameter
+    const location = req.params.location;
+
+    // Construct query
+    const query = { location: location };
+
+    // Perform the database query to find RGS details based on the location
+    const RGS_details = await rgs.findOne(query);
+    
+    // Check if RGS details were found
+    if (RGS_details) {
+      // Send 200 OK status and the found RGS_details
+      res.status(200).send(RGS_details);
+    } else {
+      // Send 404 if RGS details not found
+      res.status(404).send('RGS details not found');
+    }
+  } catch (err) {
+    // Log any errors that occur
+    console.error(err);
+    // Send a 500 Internal Server Error response
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+
+app.post('/api/login', async (req, res) =>{
+  //Verify user credentials
+  const {username, password} = req.body;
+
+  try{
+    const client = await user.findOne({username,password});
+
+    if(client){
+      const token = jwt.sign({ userid: client._id }, 'secret', { expiresIn: '1h' });
+      res.json({ userid: client._id, token });
+    } else {
+      res.status(401).json({ message: 'Invalid credentials'});
+    }
+  }catch(error){
+    console.error('Error finding user:', error);
+    res.status(500).json({ message: 'Internal server error'});
+  }
+});
+  
+// Define a route to get all users
+app.get('/api/users', async (req, res) => {
+    try {
+      // Retrieve all users from the database
+      const users = await user.find();
+      res.json(users); // Return the users as a JSON response
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Server error' });
+    }
+  });
+
+app.get('/api/user_details', async (req, res) => {
+  const ID= req.body.ID; // Assuming the ID is passed as a query parameter
+
+  try {
+    console.log('Searching for document with _id:', ID);
+    // Find the document by its _id
+    try {
+      const docs = await user.findById(ID);
+      console.log("Result : ", docs);
+      res.send(docs);
+    } catch (err) {
+      console.log(err);
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+app.get('/api/latest_data', async (req, res) => {
+  try {
+    // Get the latest document based on the 'createdAt' field
+    const latestDocument = await user.findOne({}, {}, { sort: { 'createdAt': -1 } });
+
+    if (!latestDocument) {
+      return res.status(404).send('No documents found');
+    }
+
+    res.send(latestDocument);
+    console.log(latestDocument);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+app.post('/api/users/mavlink_data/', async (req, res) => {
+  try {
+      const userID = req.body.userID;
+      const month = req.body.month;
+      const newMavlinkData = req.body.data;
+
+      // Validate inputs
+      if (!userID || !month || !newMavlinkData) {
+          return res.status(400).json({ error: 'Invalid input data' });
+      }
+
+      // Find the user document
+      const user_document = await user.findById(userID);
+      if (!user_document) {
+          return res.status(404).json({ error: 'User not found' });
+      }
+
+      // Find or create the entry for the specified month and push new data
+      await user.findOneAndUpdate(
+          { _id: userID, 'mavlink_data.month': month },
+          { $push: { 'mavlink_data.$.data': { $each: newMavlinkData } } },
+          { upsert: true }
+      );
+
+      res.status(200).json({ message: 'Indexes appended successfully' });
+  } catch (error) {
+      console.error('Error appending indexes:', error);
+      res.status(500).json({ error: 'Failed to append indexes' });
+  }
+});
+
+
+app.get('/api/users/:userID/mavlink_data/:month', async (req, res) => {
+  try {
+    const userID = req.params.userID;
+    const month = req.params.month;
+
+    const user_document = await user.findById(userID);
+
+    if (!user_document) {
+      console.log("User not found");
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    // Find the entry for the specified month
+    let mavlinkDataEntry = user_document.mavlink_data.find(entry => entry.month === month);
+    if (!mavlinkDataEntry) {
+      console.log(`No data saved under ${month}`);
+      return res.status(404).json({ message: `No data saved under ${month}` });
+    }
+
+    res.json(mavlinkDataEntry);
+  } catch (error) {
+    console.error('Error fetching mavlink data:', error);
+    res.status(500).json({ error: 'Failed to fetch mavlink data' });
+  }
+});
+
+
+app.put('/api/users/mavlink_data/:month', async (req, res) => {
+  try {
+      const userID = req.params.userID;
+      const month = req.params.month;
+      const newMavlinkData = req.body;
+
+      // Find the user by userId
+      const user_document = await user.findById(userID);
+
+      // Append the new mavlink_data object to the appropriate month's list
+      const updatedUser = await user.findOneAndUpdate(
+          { _id: userID },
+          { $push: { 'mavlink_data.$[elem].data': newMavlinkData } },
+          {
+              arrayFilters: [{ 'elem.month': month }],
+              new: true
+          }
+      );
+
+      res.json(updatedUser);
+  } catch (error) {
+      console.error('Error updating user:', error);
+      res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+
+
+// Start the server
+app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
+});
