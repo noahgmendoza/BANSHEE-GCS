@@ -73,10 +73,17 @@ app.post('/api/user/data', async (req, res) => {
 app.post('/api/rgs_details', async (req, res) =>{
         try{
             const newRGS = new rgs(req.body);
-            const db = mongoose.connection.useDb('system_details');
-            const savedRGS = await newRGS.save();
-            console.log(savedRGS);
-            res.send('New RGS added. ID:' + savedRGS._id);
+            const location = req.body.location;
+
+            const RGS = await rgs.findOne({ location: location });
+            if (RGS){
+              res.send('RGS already exists');
+            }else{
+              const db = mongoose.connection.useDb('system_details');
+              const savedRGS = await newRGS.save();
+              console.log(savedRGS);
+              res.send('New RGS added. ID:' + savedRGS._id);
+            }
         }
         catch(err){
             console.log(err);
@@ -87,11 +94,11 @@ app.post('/api/rgs_details', async (req, res) =>{
 //Update voltages at RGS location
 app.put('/api/rgs/voltages', async (req, res) =>{
   try {
-    const newVoltages = req.body.voltages;
+    const newVoltages = req.body.battery_data;
     const query = { location: req.body.location };
 
     // Update the document with new voltages
-    const updatedRGS = await rgs.findOneAndUpdate(query, { $set: { voltages: newVoltages } }, {
+    const updatedRGS = await rgs.findOneAndUpdate(query, { $set: { battery_data: newVoltages } }, {
       new: true
     });
 
