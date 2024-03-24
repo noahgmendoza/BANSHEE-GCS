@@ -1,67 +1,69 @@
 import socket
-import sys
-import json
-landing_flag = 1
+import RPi.GPIO as GPIO
+import time
 
-HOST = '149.28.81.138'
-PORT = 80
-socket_num = (HOST, PORT) #IP + Port
+# Set the GPIO mode to BCM
+GPIO.setmode(GPIO.BCM)
 
-client_socket  =  socket.socket(socket.AF_INET,socket.SOCK_STREAM) #creating a socket
-client_socket.connect(socket_num) #connecting to the server socket
-try:
-        print("socket connect to server") #print after connecting to the server socket
+# Set the GPIO pin number
+pin = 18
 
-        client_socket.send("Drone".encode('utf-8')) #send data over the network socket
-        print("send 'drone'") #print after send
+# Set the pin as an input
+GPIO.setup(pin, GPIO.IN)
 
-        Response_server = client_socket.recv(4096) #defining the size of how much we can receive (upto 4096)
-        resp = Response_server.decode('utf-8') 
-        print(resp)
+# Enable edge detection for both rising and falling edges
+GPIO.add_event_detect(pin, GPIO.BOTH)
 
-        sample = {"mavpackettype": "HEARTBEAT", "type": 4, "autopilot": 7, "base_mode": 5, "custom_mode": 0, "system_status": 3, "mavlink_version": 3, "system_staus": 6}, {"mavpackettype": "HEARTBEAT", "type": 4, "autopilot": 7, "base_mode": 5, "custom_mode": 0, "system_status": 3, "mavlink_version": 3, "system_staus": 6}, {"mavpackettype": "HEARTBEAT", "type": 4, "autopilot": 7, "base_mode": 5, "custom_mode": 0, "system_status": 3, "mavlink_version": 3, "system_staus": 6}, {"mavpackettype": "HEARTBEAT", "type": 4, "autopilot": 7, "base_mode": 5, "custom_mode": 0, "system_status": 3, "mavlink_version": 3, "system_staus": 6}, {"mavpackettype": "HEARTBEAT", "type": 4, "autopilot": 7, "base_mode": 5, "custom_mode": 0, "system_status": 3, "mavlink_version": 3, "system_staus": 6}, {"mavpackettype": "HEARTBEAT", "type": 4, "autopilot": 7, "base_mode": 5, "custom_mode": 0, "system_status": 3, "mavlink_version": 3, "system_staus": 6}, {"mavpackettype": "HEARTBEAT", "type": 4, "autopilot": 7, "base_mode": 5, "custom_mode": 0, "system_status": 3, "mavlink_version": 3, "system_staus": 6}, {"mavpackettype": "HEARTBEAT", "type": 4, "autopilot": 7, "base_mode": 5, "custom_mode": 0, "system_status": 3, "mavlink_version": 3, "system_staus": 6}, {"mavpackettype": "HEARTBEAT", "type": 4, "autopilot": 7, "base_mode": 5, "custom_mode": 0, "system_status": 3, "mavlink_version": 3, "system_staus": 6}, {"mavpackettype": "HEARTBEAT", "type": 4, "autopilot": 7, "base_mode": 5, "custom_mode": 0, "system_status": 3, "mavlink_version": 3, "system_staus": 6}
+def drone_client():
+    # Connect to the server
+    server_address = ('192.168.1.61', 3300)  # Adjust the IP address and port if necessary
+    client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    client_socket.connect(server_address)
 
-        if resp =="Ready": #if decoded utf-8 is Ready for transfer continue
-                print("received") #print after receive
+    try:
+        # Send the client ID
+        client_socket.sendall(b'Drone')
 
-                sensor_data = []                
-                for x in range(10):
-                        sensor_data.append(json.dumps(sample))
+        # Wait for confirmation from the server
+        data = client_socket.recv(1024)
+        print("Received:", data.decode())
 
-                #Send total indexes of data
-                size = len(sensor_data)  # Get the array size
-                size_str = str(size)  # Convert it to a string
-                print("Size of list:", size_str)
-                client_socket.send(size_str.encode('utf-8'))  # Send the size as encoded utf-8
+        # Simulate drone task
+        print("Drone task is in progress...")
+        time.sleep(10)
 
-                size = int(size)
-                #Send through array up to max
-                try:
-                        for x in range(size):
-                                client_socket.send(sensor_data[x].encode('utf-8'))
-                                Response_server = client_socket.recv(1024)
-                                if Response_server.decode('utf-8') == 'Received':
-                                        print('\tSent item #' + str(x))
-                                else:
-                                        client_socket.send(sensor_data[x].encode('utf-8')) #error checking
-                except Exception as e:
-                        print(f"Error found: {e}")
-                
-                Response_server = client_socket.recv(1024)
-                if Response_server.decode('utf-8') == 'Complete':
-                        print('Robot Ground System Complete')
+        # Inform the server that the task is completed
+        client_socket.sendall(b'Task completed')
 
-                while landing_flag == 1:
-                        landing_flag = input("Enter status command: ")
-                
-                client_socket.send('Takeoff'.encode('utf-8')) #sends encoded 'Takeoff' to the server
-                Response_server = client_socket.recv(1024)
-                if Response_server.decode('utf-8') =='Received':
-                        print('GCS Achknowledged')
-                client_socket.close()
-except e as error:
-        print(e)
-finally:
+        # Wait for confirmation from the server
+        data = client_socket.recv(1024)
+        print("Received:", data.decode())
+
+    finally:
+        # Close the connection
         client_socket.close()
-        print("Force quit")
-        sys.exit(1)  # Exit the program with a non-zero status code
+
+def main():
+    print("sgfhfjhlk")
+    try:
+        while True:
+            # Wait for an edge to be detected
+            GPIO.wait_for_edge(pin, GPIO.BOTH)
+            print("Flying")
+            # Get the current state of the pin
+            state = GPIO.input(pin)
+
+            # Print the state
+            if state == GPIO.HIGH:
+                print("Rising edge detected")
+                drone_client()
+            else:
+                print("Falling edge detected")
+
+            # Wait for a short time to avoid multiple detections
+            time.sleep(0.1)
+    except Exception as e:
+        print(f"Error: {e}")
+
+if __name__ == "__main__":
+    main()
