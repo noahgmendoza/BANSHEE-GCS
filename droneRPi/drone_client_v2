@@ -4,6 +4,7 @@ import time
 import json
 import requests
 import datetime
+import threading
 from pymavlink import mavutil
 
 # Set up a MAVLink connection
@@ -12,6 +13,12 @@ sensor_data = []
 
 # Initialize landing flag
 landing_flag = False
+uploaded = False
+
+server_address = ('192.168.1.41', 3300)  # Adjust the IP address and port if necessary
+
+def print_message():
+    print("75 seconds have passed! Debounce clear")
 
 def data_upload():
     user_id = '65ffb622211235535bb6910c'
@@ -19,7 +26,7 @@ def data_upload():
     print(current_month)
     # Upload endpoint
     url = f"https://rgs.bansheeuav.tech/api/users/mavlink_data/{current_month}"
-
+    
     # Payload
     payload = {
         "userID": user_id,
@@ -40,54 +47,42 @@ def data_upload():
             print("Failed to upload data. Status code:", response.status_code)
     except Exception as e:
         print("Error uploading data:", e)
-
+    
     # Clear sensor_data list after upload
     sensor_data.clear()
     time.sleep(1)
 
-def drone_client():
-    # Connect to the server
-    server_address = ('192.168.1.41', 3300)  # Adjust the IP address and port if necessary
-    client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    client_socket.connect(server_address)
-    try:
-        # Send the client ID
-        client_socket.sendall(b'Drone')
-
-        # Wait for confirmation from the server
-        data = client_socket.recv(1024)
-        print("Received:", data.decode())
-
-        # Simulate drone task
-        print("Drone task is in progress...")
-        data_upload()
-
-        # Inform the server that the task is completed
-        client_socket.sendall(b'Drone Task completed')
-
-        # Wait for confirmation from the server
-        data = client_socket.recv(1024)
-        print("Received: ", data.decode())
-
-    finally:
-        # Close the connection
-        client_socket.close()
-
 def landing(channel):  # Create a flag for landing
     global landing_flag
-    landing_flag = not landing_flag
+    if not uploaded:
+        landing_flag = True
+    elif landing_flag is True:
+        landing_flag = False
     print(f"Landing: {landing_flag}")
+    # Create a Timer object with a 90-second delay
+    timer = threading.Timer(90, print_message)
+    # Start the timer
+    timer.start()
 
 # Event listener on pin 17
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(17, GPIO.IN, pull_up_down=GPIO.PUD_UP)  # Set pin 17 as input with pull-up resistor
-sending = 0
-GPIO.add_event_detect(17, GPIO.BOTH, callback=landing, bouncetime=10000)  # Event listener for voltage change
+GPIO.add_event_detect(17, GPIO.BOTH, callback=landing, bouncetime=90000)  # Event listener for voltage change
 
 def main():
+    global uploaded, client_socket
     try:
         while True:
             if not landing_flag:  # Runs when the drone is in the air
+                if uploaded and client_socket:
+                    try:
+                        client_socket.sendall(b'Takeoff')
+                        client_socket.close()
+                        uploaded = False
+                        print(f"Upload flag: {uploaded}")
+
+                    except Exception as e:
+                        print(f"Flag clear error: {e}")
                 msg = mav.recv_match(type='HEARTBEAT', blocking=True)
                 # MAVLink_msg to dict
                 dict_msg = msg.to_dict()
@@ -97,9 +92,31 @@ def main():
                 sensor_data.append(dict_msg)  # Append dictionary directly
                 time.sleep(2)
             else:
-                drone_client()
+                if uploaded is False:
+                    # GCS socket
+                    client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                    client_socket.connect(server_address)
+                    # Send the client ID
+                    client_socket.sendall(b'Drone')
+
+                    # Wait for confirmation from the server
+                    data = client_socket.recv(1024)
+                    print("Received:", data.decode())
+
+                    # Simulate drone task
+                    print("Drone task is in progress...")
+                    data_upload()
+                    uploaded = True
+                    # Inform the server that the task is completed
+                    client_socket.sendall(b'Drone Task completed')
+
+                    # Wait for confirmation from the server
+                    data = client_socket.recv(1024)
+                    print("Received:", data.decode())
+                    
+                    print("Ready for takeoff")
     except Exception as e:
-        print(f"Error found: {e}")
+        print(f"Main func error found: {e}")
 
 if __name__ == "__main__":
     main()
