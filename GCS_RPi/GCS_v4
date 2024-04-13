@@ -37,7 +37,7 @@ def initialize_server():
 
     # Bind the socket to the specified address and port
     server_socket.bind((HOST, PORT))
-    
+
     return server_socket
 
 def handle_drone(drone_client):
@@ -45,7 +45,7 @@ def handle_drone(drone_client):
     try:
 
         GPIO.output(int_pin, GPIO.HIGH)
-        time.sleep(3)
+        time.sleep(5)
         GPIO.output(int_pin, GPIO.LOW)
 
         # Send Confirmation
@@ -57,15 +57,26 @@ def handle_drone(drone_client):
 
         d_standby.wait()
 
+        #Wait for loc[Iking mech to retract
+        time.sleep(30)
+
+        #Inform drone: battery swap finished
+        data = drone_client.sendall(b'RGS Complete')
+
+        print("Wait for drone takeoff")
+
+        data = drone_client.recv(1024)
+        print("Received:", data.decode())
+
+        if data.decode() != 'Takeoff':
+            print("Received:", data.decode())
+
+        #Change LEDs to Green
         GPIO.output(int_pin, GPIO.HIGH)
         time.sleep(3)
         GPIO.output(int_pin, GPIO.LOW)
 
-        #Inform drone: battery swap finished 
-        data = drone_client.sendall(b'RGS Complete')
-
         m_standby.clear()
-        time.sleep(1)
 
     finally:
         drone_connected = False
@@ -91,6 +102,11 @@ def handle_mech(mech_client):
             # Inform drone BTP completed
             d_standby.set()
 
+
+            GPIO.output(int_pin, GPIO.HIGH)
+            time.sleep(5)
+            GPIO.output(int_pin, GPIO.LOW)
+
             # Clear mech
             m_standby.clear()
 
@@ -111,7 +127,7 @@ def main():
         try:
             server_socket.listen(3)
             print(f"Waiting for connections on {server_socket}")
-            
+
             while not(drone_connected and mech_connected):
                 client, address = server_socket.accept()
                 id = client.recv(1024).decode('utf-8')
@@ -121,7 +137,7 @@ def main():
                     print("Mech Connected")
                     mech_client_thread.start()
                     mech_connected = True
-                    
+
                 elif id == "Drone":
                     drone_client_thread = threading.Thread(target=handle_drone, args=(client,))
                     print("Drone connected")
@@ -143,4 +159,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
