@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-
+import '../styles/VideoFeed.css';
 
 function VideoFeed() {
 
@@ -33,11 +33,11 @@ function VideoFeed() {
 
 
   return (
-    <div style={{background: 'rgb(54, 58, 69)'}} className='container'>
-        <h1 style={{textAlign: 'center' , color: 'rgb(214, 214, 214)'}}>Live Video Stream</h1>
-        <div style={{ width: '100%', height: 'auto', overflow: 'hidden' }}>
+    <div className='live-vid-container'>
+        <h1>Live Video Stream</h1>
+        <div>
             {/* <video ref={videoRef} autoPlay playsInline style={{ width: '100%', height: 'auto' }} /> */}
-            <img ref={videoRef} alt='vid' style={{ width: '100%', height: 'auto' }}/>
+            <img ref={videoRef} alt='vid'/>
         </div>
     </div>
   )
