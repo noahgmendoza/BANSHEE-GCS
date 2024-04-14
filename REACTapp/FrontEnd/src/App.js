@@ -6,6 +6,7 @@ import Home from './pages/Home';
 import Dashboard from './pages/Dashboard';
 import About from './pages/About';
 import Navbar from "./components/Navbar";
+import VideoFeed from "./pages/VideoFeed";
 import { HashRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 
 function App() {
@@ -39,6 +40,12 @@ function App() {
             <Route
               path="/login"
               element={<LoginForm onLogin={handleLogin} />}
+            />
+            <Route 
+              path="/livevideofeed" 
+              element={
+                isLoggedIn ? <VideoFeed /> : <Navigate to="/login" />
+              } 
             />
           </Routes>
         </Router>
