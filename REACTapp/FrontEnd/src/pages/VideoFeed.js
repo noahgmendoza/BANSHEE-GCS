@@ -1,10 +1,11 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 
 function VideoFeed() {
 
 
     const videoRef = useRef(null);
+    const [hasVideo, setHasVideo] = useState(false);
     const wsRef = useRef(null);
 
     useEffect(() => {
@@ -20,6 +21,7 @@ function VideoFeed() {
             const blob = new Blob([arrayBuffer], { type: 'image/jpeg' });
             const imageUrl = URL.createObjectURL(blob);
             videoRef.current.src = imageUrl;
+            setHasVideo(true); // Set hasVideo to true when a frame is received
         };
 
         return () => {
@@ -36,8 +38,7 @@ function VideoFeed() {
     <div style={{background: 'rgb(54, 58, 69)'}} className='container'>
         <h1 style={{textAlign: 'center' , color: 'rgb(214, 214, 214)'}}>Live Video Stream</h1>
         <div style={{ width: '100%', height: 'auto', overflow: 'hidden' }}>
-            {/* <video ref={videoRef} autoPlay playsInline style={{ width: '100%', height: 'auto' }} /> */}
-            <img ref={videoRef} alt='vid' style={{ width: '100%', height: 'auto' }}/>
+            {hasVideo ? (<img ref={videoRef} alt='vid' style={{ width: '100%', height: 'auto' }}/>) : (<p style={{textAlign: 'center', color:'rgb(214, 214, 214)', width: '100%', height: 'auto'}}>Nothing to see here</p>)}
         </div>
     </div>
   )
