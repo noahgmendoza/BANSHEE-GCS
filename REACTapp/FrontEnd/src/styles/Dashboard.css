@@ -196,6 +196,23 @@ td {
     padding: 10%;
 }
 
+.spirit a {
+    text-decoration: none;
+    color: rgb(214, 214, 214);
+}
+
+.spirit a:hover {
+    color: rgb(73, 85, 255);
+    cursor: pointer;
+    transition: 0.1s ease-in;
+}
+
+.spirit .spirit-gauge:hover {
+    color: rgb(73, 85, 255);
+    cursor: pointer;
+    transition: 0.1s ease-in;
+}
+
 .brain-power {
     display: flex;
     flex-direction: column;

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import '../styles/Dashboard.css';
-import SpiritGauge from '../assets/spirit.png';
+import VideoFeed from '../assets/Drone-pov.gif';
 import BrainPowerGauge from '../assets/brainpower_percentage.png';
 import MotivationGauge from '../assets/motivation.png';
 import Select from 'react-select'
@@ -9,6 +9,7 @@ import battery50 from '../assets/battery50.png';
 import battery75 from '../assets/battery75.png';
 import batteryfull from '../assets/batteryfull.png';
 import { IoMdRefresh } from "react-icons/io";
+import { Link } from "react-router-dom";
 
 
 
@@ -353,8 +354,14 @@ function Dashboard() {
         </div>
         <div className='right-side'>
           <div className='spirit'>
-            <h1 className='spirit-header' id='header'>Team Spirit</h1>
-            <img className='spirit-gauge' id='gauge' src={SpiritGauge} alt="spirit" />
+            <h1 className='spirit-header' id='header'>
+              <Link to="/livevideofeed">
+                Live Video
+              </Link>
+            </h1>
+            <Link to="/livevideofeed">
+              <img className='spirit-gauge' id='gauge' src={VideoFeed} alt="spirit" />
+            </Link>
           </div>
           <div className='brain-power'>
             <h1 className='brainpower-header' id='header'>Team Brain Power</h1>
