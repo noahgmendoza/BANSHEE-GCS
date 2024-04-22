@@ -43,11 +43,6 @@ def initialize_server():
 def handle_drone(drone_client):
     global drone_connected
     try:
-
-        GPIO.output(int_pin, GPIO.HIGH)
-        time.sleep(5)
-        GPIO.output(int_pin, GPIO.LOW)
-
         # Send Confirmation
         drone_client.sendall(b'0')
         m_standby.set()
@@ -56,9 +51,6 @@ def handle_drone(drone_client):
         print("Received:", data.decode())
 
         d_standby.wait()
-
-        #Wait for loc[Iking mech to retract
-        time.sleep(30)
 
         #Inform drone: battery swap finished
         data = drone_client.sendall(b'RGS Complete')
@@ -76,7 +68,8 @@ def handle_drone(drone_client):
         time.sleep(3)
         GPIO.output(int_pin, GPIO.LOW)
 
-        m_standby.clear()
+        #Clear drone
+        d_standby.clear()
 
     finally:
         drone_connected = False
@@ -92,6 +85,13 @@ def handle_mech(mech_client):
             # Wait for drone landing
             m_standby.wait()
 
+            GPIO.output(int_pin, GPIO.HIGH)
+            time.sleep(5)
+            GPIO.output(int_pin, GPIO.LOW)
+
+            #Wait for locking mech to retract
+            time.sleep(30)
+
             # Initiate BTP
             mech_client.sendall(b'G')
 
@@ -99,13 +99,14 @@ def handle_mech(mech_client):
             data = mech_client.recv(1024)
             print("Received:", data.decode())
 
-            # Inform drone BTP completed
-            d_standby.set()
-
-
+            #Retract
             GPIO.output(int_pin, GPIO.HIGH)
             time.sleep(5)
             GPIO.output(int_pin, GPIO.LOW)
+            time.sleep(30)
+
+            # Inform drone BTP completed
+            d_standby.set()
 
             # Clear mech
             m_standby.clear()
